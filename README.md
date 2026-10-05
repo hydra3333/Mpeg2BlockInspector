@@ -118,8 +118,6 @@ This completely eliminates the need to create temporary `.m2v` files on your har
 
 Here is how to set it up:
 
----
-
 #### 1. The FFmpeg Command for Piping
 FFmpeg can demux the `.mpg` container and write raw elementary MPEG-2 video packets straight to the standard output pipe (`-`) using the format flag `-f mpeg2video`:
 
