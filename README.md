@@ -20,7 +20,7 @@ You can then parse that log in Python with zero performance penalty.
 
 ---
 
-### 4. What the Data Looks Like in the Bitstream
+### 3. What the Data Looks Like in the Bitstream
 
 For a 720×480 DVD frame ($45 \times 30 = 1,350$ macroblocks per frame), the reference decoder reads these key syntax elements:
 
@@ -39,7 +39,7 @@ For a 720×480 DVD frame ($45 \times 30 = 1,350$ macroblocks per frame), the ref
 
 ---
 
-### 5. Implementation Blueprint
+### 4. Implementation Blueprint
 
 #### Step 1: The C-Side Modification (MSSG Decoder)
 Inside the MSSG decoder source, locate `macroblk.c` in function `macroblock_modes(...)`:
@@ -109,10 +109,3 @@ def analyze_mpeg2_structure(mpg_path, max_frames=100):
 ```
 
 ---
-
-### Summary
-
-* **Do decoders deblock MPEG-2?** No. They produce raw reconstructed blocks.
-* **Does the bitstream know the exact field/frame block layout?** Yes, via the `dct_type` and `motion_type` syntax elements per macroblock.
-* **Should you rewrite the decoder in pure Python?** No; it is too complex and slow.
-* **Recommended approach:** Compile the standard, open-source MSSG MPEG-2 C reference decoder with a few `printf` statements inserted into `macroblk.c`, and pipe the human-readable output into Python. This gives you exact per-block metadata down to the quantization scale and field/frame DCT split for your VHS-C captures.
