@@ -9,6 +9,8 @@ Accept an mpeg2 video stream piped from ffmpeg and extract macroblock informatio
 
 ### 2. Modifying the C Reference Decoder
 
+Source: https://github.com/aholtzma/mpeg2dec
+
 The standard approach for this experiment is to take the **official MSSG (MPEG Software Simulation Group) Reference Decoder** (which is written in simple, ANSI C from the mid-1990s) and add **10 to 15 lines of C code** to dump a structured log (or JSON). 
 
 You can then parse that log in Python with zero performance penalty.
@@ -109,3 +111,113 @@ def analyze_mpeg2_structure(mpg_path, max_frames=100):
 ```
 
 ---
+
+### 5. You can pipe the stream directly from `ffmpeg` straight into the modified decoder's `stdin` (standard input). 
+
+This completely eliminates the need to create temporary `.m2v` files on your hard drive. The demuxing happens on the fly in RAM.
+
+Here is how to set it up:
+
+---
+
+#### 1. The FFmpeg Command for Piping
+FFmpeg can demux the `.mpg` container and write raw elementary MPEG-2 video packets straight to the standard output pipe (`-`) using the format flag `-f mpeg2video`:
+
+```bash
+ffmpeg -i "capture.mpg" -c:v copy -an -f mpeg2video -
+```
+
+#### 2. The 3-Line C Modification for Windows (in Visual Studio)
+
+By default on Windows, `stdin` operates in "Text mode" (which mangles binary data by converting line endings). You need to tell Windows to treat `stdin` as **pure binary**.
+
+Open **`mpeg2dec.c`** in your Visual Studio project:
+
+1. At the top of `mpeg2dec.c`, include the Windows I/O headers:
+   ```c
+   #ifdef _WIN32
+   #include <io.h>
+   #include <fcntl.h>
+   #endif
+   ```
+
+2. Inside `main()` or where the input file is opened, check if the input filename is `"-"` (or if no file is provided), and set `stdin` to binary mode:
+   ```c
+   if (strcmp(argv[i], "-") == 0) {
+       #ifdef _WIN32
+       _setmode(_fileno(stdin), _O_BINARY); /* Crucial for Windows */
+       #endif
+       Infile = _fileno(stdin); /* MSSG uses low-level file descriptor Infile */
+   } else {
+       Infile = open(argv[i], O_RDONLY | O_BINARY);
+   }
+   ```
+
+*(Note: In the MSSG reference code, `getbits.c` uses standard sequential forward reads via `read(Infile, ld->Rdbfr, BUFFER_SIZE)` and never performs backwards seeks (`lseek`), so streaming from a pipe works out of the box).*
+
+#### 3. Running It in the Command Prompt
+
+Once compiled, you link them together with the standard vertical pipe (`|`):
+
+```cmd
+ffmpeg -v error -i "capture.mpg" -c:v copy -an -f mpeg2video - | Mpeg2BlockInspector.exe -b - > analysis.log
+```
+
+* `ffmpeg -v error`: Silences FFmpeg's general banner text so it doesn't pollute the terminal.
+* `-f mpeg2video -`: Sends the raw MPEG-2 stream down the pipe.
+* `Mpeg2BlockInspector.exe -b -`: Tells your tool to read from the pipe.
+* `> analysis.log`: Redirects your custom macroblock `printf` output to a file.
+
+#### 4. Running the Entire Pipeline Inside Python
+
+If you want Python to control the entire workflow and process the stream line-by-line in real time:
+
+```python
+import subprocess
+
+def stream_and_inspect_mpg(mpg_path):
+    # Step 1: Start FFmpeg demuxer process (outputting to pipe)
+    ffmpeg_cmd = [
+        "ffmpeg", "-v", "error",
+        "-i", mpg_path,
+        "-c:v", "copy",
+        "-an",
+        "-f", "mpeg2video",
+        "-"
+    ]
+    p_ffmpeg = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+
+    # Step 2: Start your Visual Studio Inspector tool (reading from FFmpeg's pipe)
+    inspector_cmd = ["Mpeg2BlockInspector.exe", "-b", "-"]
+    p_inspector = subprocess.Popen(
+        inspector_cmd, 
+        stdin=p_ffmpeg.stdout, 
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.DEVNULL, 
+        text=True
+    )
+    p_ffmpeg.stdout.close() # Allow p_ffmpeg to receive a SIGPIPE if p_inspector exits
+
+    # Step 3: Read and analyze the block log live in Python
+    for line in p_inspector.stdout:
+        line = line.strip()
+        if line.startswith("FRAME_HEADER"):
+            print(f"[New Frame] {line}")
+        elif line.startswith("MB"):
+            # Process macroblock metadata...
+            pass
+
+    p_inspector.wait()
+
+# Run it:
+stream_and_inspect_mpg("my_vhs_tape.mpg")
+```
+
+#### 5. With this architecture:
+1. **Zero disk space used:** No intermediate `.m2v` files written to disk.
+2. **Real-time streaming:** Python gets the frame structure and `Field vs. Frame DCT` macroblock classification directly as FFmpeg demuxes the capture.
+
+
+
+
+
