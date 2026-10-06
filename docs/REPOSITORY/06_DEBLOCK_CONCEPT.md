@@ -51,6 +51,7 @@ Dave's tests or a cold read of authoritative source). Nothing in this document i
 | CRSP | `Claude_RESPONSE_TO_ChatGPT_REVIEW_OF_Claude_MPEG2_Deblocking_Prior_Art_v0_2.md` |
 | GRSP | `ChatGPT_RESPONSE_TO_Claude_REVIEW_OF_ChatGPT_MPEG2_Deblocking_Codec_Mechanics_v0_1.md` |
 | FCR | `ChatGPT_FINAL_CROSS_REVIEW_OF_Claude_RESPONSE_v0_1.md` |
+! SC | `ChatGPT_REFERENCE_vs_INTERIM_Source_Comparison_v0_2.md` |
 
 ---
 
@@ -103,7 +104,7 @@ is VERIFIED. Numbering follows FCR section 13.
 | K-04 | In MPEG-2 4:2:0 frame pictures, chroma blocks are organised in frame structure for DCT coding and do not follow the per-macroblock luma dct_type reorganisation. Field pictures: see section 4.6. | RESEARCHED | CM 8.1 |
 | K-05 | quantiser_scale_code must be mapped through q_scale_type to the actual quantiser scale; weighting matrices also affect quantisation. | RESEARCHED | CM 12, 13 |
 | K-06 | Coded order and display order differ when B pictures are present; index correspondence must follow the output (display) frame sequence that maps to VapourSynth frames. | RESEARCHED | CM 10 |
-| K-07 | Skipped and no-residual macroblocks carry no dct_type (syntax fact); they must not be given a FRAME/FIELD state from a stale or default decoder variable (implementation constraint). | RESEARCHED syntax fact + PROPOSED implementation constraint | CM 5.2; CRV R2; GRSP 4 |
+| K-07 | FRAME/FIELD/NONE describes applicable coded residual transform geometry, not merely the presence or value of dct_type. NONE applies where no coded residual transform geometry exists, including skipped macroblocks and non-intra macroblocks with effective coded_block_pattern == 0; a dct_type bit may nevertheless have been read in the latter case. A stale/default decoder dct_type must not create a FRAME/FIELD state. Field pictures are identified separately by picture_structure. | RESEARCHED syntax/decoder semantics + PROPOSED implementation constraint | CM 5.2; CRV R2; GRSP 4; SC v0.2 9.3 |
 | K-08 | Motion compensation can copy blocking from reference pictures into the current picture (researched). Such blocking can lie off the current picture's transform grid and so bound what a current-grid post-filter can target (inference). | HYPOTHESIS supported by RESEARCHED evidence | PA S24, S03; CRV R3; GRSP 5 |
 | K-09 | FFmpeg's MPEG-2 decoder can export per-macroblock quantiser information as frame side data associated with output frames. | RESEARCHED | PA S18; CR section 7; GRSP 9 |
 
