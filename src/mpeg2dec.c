@@ -346,9 +346,9 @@ Example:       mpeg2decode -b bitstream.mpg -f -r -o0 rec%%d\n\
         LastArg = ((argc - i) == 1);
 
         /* parse ahead to see if another flag immediately follows current
-           argument (this is used to tell if a filename is missing) */
+               argument (this is used to tell if a filename is missing) */
         if (!LastArg)
-            NextArg = (argv[i + 1][0] == '-');
+            NextArg = (argv[i + 1][0] == '-' && argv[i + 1][1] != '\0');
         else
             NextArg = 0;
 
