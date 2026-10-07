@@ -2,7 +2,7 @@
 
 **Document:** `05_DECISIONS.md`
 **Version:** 1.1 (DRAFT - PROPOSED UPDATE)
-**Date:** 2026-10-08
+**Date:** 2026-10-07
 **Drafted by:** ChatGPT for Claude cold review; current revision workflow per proposed D-23 clarification
 **Status:** DRAFT FOR CLAUDE REVIEW AND DAVE RATIFICATION. Version 1.0 remains the current ratified decision authority until this revision is ratified (D-20).
 **Controlling proposal:** `MPEG2_Macroblock_Index_VapourSynth_Deblocking_Project_Proposal_v0_5.md`
@@ -351,7 +351,7 @@ Origin: Dave's rulings on issues I-1 to I-6 tabled by Claude before drafting (ch
 
 ## 6. Change log
 
-### v1.1 - 2026-10-08 (DRAFT - CORRECTED AFTER CLAUDE REVIEW)
+### v1.1 - 2026-10-07 (DRAFT - PROPOSED UPDATE)
 
 - Drafted by ChatGPT for Claude cold review; v1.0 remains ratified authority until Dave ratifies
   this revision.
@@ -361,8 +361,8 @@ Origin: Dave's rulings on issues I-1 to I-6 tabled by Claude before drafting (ch
 - Recorded proposed amendment of D-08 by D-26.
 - Clarified D-23 as the initial drafting-round workflow; current revision workflow is ChatGPT draft,
   Claude cold review, Dave ratification.
-- Existing-filter yardstick explicitly excluded from the planned Stage 2 experiment; Dave
-  confirmed this ruling on 2026-10-08. Revisit only if later evidence creates a specific need.
+- Existing-filter yardstick explicitly excluded from the planned Stage 2 experiment; revisit only
+  if later evidence creates a specific need.
 
 ### v1.0 - 2026-10-06 (RATIFIED)
 

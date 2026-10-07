@@ -2,7 +2,7 @@
 
 **Document:** `06_DEBLOCK_CONCEPT.md`
 **Version:** 1.1 (DRAFT - PROPOSED UPDATE)
-**Date:** 2026-10-08
+**Date:** 2026-10-07
 **Drafted by:** ChatGPT for Claude cold review
 **Status:** DRAFT FOR CLAUDE REVIEW AND DAVE RATIFICATION. Version 1.0 remains the current ratified Stage 0 concept until this revision is ratified.
 Items labelled HYPOTHESIS remain hypotheses and items labelled OPEN remain unresolved; ratification
@@ -88,8 +88,8 @@ access**:
 
 - the decoded VapourSynth frame is the processing object;
 - per-macroblock metadata determines which transform seams exist and where;
-- same-field-polarity samples are used where filtering across a seam would otherwise mix
-  temporally different fields;
+- same-field-polarity samples are used only where the known geometry requires it, to avoid
+  mixing temporally different fields;
 - there is NO separate-field deblocking pass: the frame is never split into two fields that are
   deblocked independently on a fixed field grid.
 
@@ -101,11 +101,8 @@ parity-aware sample access inside this model.
 
 ## 3. MPEG-2 knowledge this concept relies on
 
-K-01 to K-06, K-08 and K-09 remain **ACCEPTED** at the evidence level shown (D-21; ratified
-by Dave on 2026-10-06). K-07 is revised in v1.1 and is **PROPOSED -> ACCEPTED** in this draft;
-its expanded decoder-semantics wording is supported by a reference-decoder cold read. K-10 and
-K-11 are likewise **PROPOSED -> ACCEPTED** and require Dave's ratification. Numbering continues
-the K-nn sequence.
+K-01 to K-09 remain **ACCEPTED** at the evidence level shown (D-21; ratified by Dave on
+2026-10-06). K-10 and K-11 are **PROPOSED -> ACCEPTED** in this draft and require Dave's ratification. Numbering continues the K-nn sequence.
 
 | ID | Knowledge | Evidence level | Source |
 |---|---|---|---|
@@ -115,7 +112,7 @@ the K-nn sequence.
 | K-04 | In MPEG-2 4:2:0 frame pictures, chroma blocks are organised in frame structure for DCT coding and do not follow the per-macroblock luma dct_type reorganisation. Field pictures: see section 4.6. | RESEARCHED + VERIFIED (reference-decoder implementation, V2) | CM 8.1; CDR V2 |
 | K-05 | quantiser_scale_code must be mapped through q_scale_type to the actual quantiser scale; weighting matrices also affect quantisation. | RESEARCHED | CM 12, 13 |
 | K-06 | Coded order and display order differ when B pictures are present; index correspondence must follow the output (display) frame sequence that maps to VapourSynth frames. | RESEARCHED | CM 10 |
-| K-07 | FRAME/FIELD/NONE describes applicable coded residual transform geometry, not merely the presence or value of dct_type. NONE applies where no coded residual transform geometry exists, including skipped macroblocks and non-intra macroblocks with effective coded_block_pattern == 0; a dct_type bit may nevertheless have been read in the latter case. A stale/default decoder dct_type must not create a FRAME/FIELD state. Field pictures are identified separately by picture_structure. | RESEARCHED syntax + VERIFIED reference-decoder semantics; revised derivation/implementation rule PROPOSED -> ACCEPTED | CM 5.2; CRV R2; GRSP 4; SC v0.2 9.3; Claude repository-draft review M1 |
+| K-07 | FRAME/FIELD/NONE describes applicable coded residual transform geometry, not merely the presence or value of dct_type. NONE applies where no coded residual transform geometry exists, including skipped macroblocks and non-intra macroblocks with effective coded_block_pattern == 0; a dct_type bit may nevertheless have been read in the latter case. A stale/default decoder dct_type must not create a FRAME/FIELD state. Field pictures are identified separately by picture_structure. | RESEARCHED syntax/decoder semantics + PROPOSED implementation constraint | CM 5.2; CRV R2; GRSP 4; SC v0.2 9.3 |
 | K-08 | Motion compensation can copy blocking from reference pictures into the current picture (researched). Such blocking can lie off the current picture's transform grid and so bound what a current-grid post-filter can target (inference). | HYPOTHESIS supported by RESEARCHED evidence | PA S24, S03; CRV R3; GRSP 5 |
 | K-09 | FFmpeg's MPEG-2 decoder can export per-macroblock quantiser information as frame side data associated with output frames. This is retained as a cross-check source, not a competing production architecture. | RESEARCHED | PA S18; CR section 7; GRSP 9 |
 | K-10 | In the inspected reference decoder's MPEG-2 4:2:0 path, chroma blocks use the macroblock's same `quantizer_scale`; for 4:2:0 the decoder selects the luma quantisation matrices rather than separate chroma matrices. This is VERIFIED implementation knowledge, not a normative H.262 claim. | VERIFIED (reference-decoder implementation, V3) - PROPOSED -> ACCEPTED | CDR V3 |
@@ -287,7 +284,7 @@ mapping are OPEN (O-05).
 
 All families are **HYPOTHESIS**. Exact kernels are undecided (section 12).
 
-### 8.1 Family A - design family
+### 8.1 Family A - leading hypothesis
 
 **DECIDED (D-10).**
 
@@ -339,9 +336,6 @@ the concept-level structure.
 | 5 | NONE-policy experiment | resolve filtering behaviour where no current coded residual transform geometry is asserted |
 | 6 | Bounded 4:2:0 chroma experiment | fixed chroma geometry; fixed-QP versus real-QP behaviour; no-harm |
 | 7 | Generalisation / no-harm | locked real-recorder hold-outs plus progressive/control material |
-
-Steps 2 and 3 use the same initial candidate kernel, frozen for that fixed-QP versus real-QP
-comparison. Step 4 then develops the kernel, thresholds and strength further.
 
 Before filtering-quality conclusions, Stage 2 must validate that index macroblock coordinates are
 spatially registered to the BestSource pixels. This is a detector-free registration check, not a
@@ -443,7 +437,7 @@ ratifiable synthesis and points to them; it does not restate them.
 
 ## 14. Change log
 
-### v1.1 - 2026-10-08 (DRAFT - CORRECTED AFTER CLAUDE REVIEW)
+### v1.1 - 2026-10-07 (DRAFT - PROPOSED UPDATE)
 
 - Drafted by ChatGPT for Claude cold review; v1.0 remains ratified authority until Dave ratifies
   this revision.
@@ -454,13 +448,6 @@ ratifiable synthesis and points to them; it does not restate them.
 - K-03/K-04 evidence upgraded with Claude V1/V2 reference-decoder verification; proposed K-10
   (V3 chroma QP/matrix path) and K-11 (V4 chroma field parity) added at VERIFIED implementation
   level.
-- K-07 explicitly marked as revised in v1.1 and PROPOSED -> ACCEPTED; its expanded decoder
-  semantics are identified as VERIFIED reference-decoder implementation evidence rather than
-  silently inheriting the v1.0 acceptance of the older wording.
-- Clarified that D-09, not transform geometry itself, is the reason for same-field-polarity access;
-  renamed Family A's section heading from "leading hypothesis" to "design family".
-- Clarified that Steps 2 and 3 use one frozen initial candidate kernel for the fixed-QP versus
-  real-QP comparison, with further kernel/threshold/strength development beginning at Step 4.
 - Added detector-free spatial index-to-pixel registration check as a Stage 2 requirement.
 - Open questions updated by meaning: O-03 closed, O-10a/O-10b withdrawn, chroma and FFmpeg items
   reframed, O-14 added for progressive/interlaced access.
