@@ -1,13 +1,10 @@
 # 02 - Index Format Specification
 
 **Document:** `02_INDEX_FORMAT_SPEC.md`
-**Version:** 0.3 (DRAFT - deliberately minimal; constraints ratified)
-**Date:** 2026-10-06
-**Drafted by:** Claude (per D-23)
-**Status:** DRAFT. NOT FROZEN. Index content, record sizes and field packing are not committed
-until Stage 3, after the feasibility gate (D-01, D-17). Items marked DECIDED are ratified by
-Dave. Constraints C-1 to C-5 are all ratified; the specification as a whole remains DRAFT / NOT
-FROZEN until the feasibility gate and Stage 3.
+**Version:** 0.4 (DRAFT - PROPOSED UPDATE; constraints C-1 to C-5 remain ratified)
+**Date:** 2026-10-07
+**Drafted by:** ChatGPT for Claude cold review
+**Status:** DRAFT. NOT FROZEN. Version 0.3 remains the current ratified-constraints baseline until this revision is ratified. Index content, record sizes and field packing are not committed until Stage 3 after the feasibility gate (D-01, D-22, C-5). Under proposed D-24 the production architecture is index-driven; that does not freeze the final index contents or packing.
 **Decision authority:** `05_DECISIONS.md`
 
 ---
@@ -19,8 +16,10 @@ format. The draft binary layout in proposal v0.5 section 5.1 (magic "MBX2", 16-b
 4-byte frame header, 2 bytes per macroblock) is illustrative history only and is not reproduced
 or committed here.
 
-Why the custom index is provisional, and what it must justify itself by: see
-`06_DEBLOCK_CONCEPT.md` sections 9.4 and 3 (K-09).
+Under proposed D-24 the production deblocker requires a matching index; the index architecture is
+therefore no longer provisional. The **contents and packing** remain deliberately unfrozen until
+Stage 3. FFmpeg per-macroblock QP side data (K-09) is retained as a useful cross-check source, not
+as a competing production architecture.
 
 Source abbreviations follow `06_DEBLOCK_CONCEPT.md` section 0.3.
 
@@ -69,7 +68,23 @@ fields are needed. No text index format is used.
 
 ---
 
-## 2. Explicitly not committed
+## 2. Candidate contents for Stage 2 / final-retention review (not a freeze)
+
+The current Stage 2 design needs, directly or derivably:
+
+- output/display frame correspondence and dimensions (C-1, C-2);
+- per-picture picture type for I/P/B reporting and deterministic leading-B quality exclusion;
+- per-picture `progressive_frame` so the experiment can select progressive frame-domain access
+  versus interlaced parity-aware access where required;
+- authoritative per-macroblock luma transform state FRAME/FIELD/NONE (C-3);
+- sufficient quantiser information to obtain the effective MPEG-2 per-macroblock scale (C-4).
+
+These are **candidate contents**, not a freeze of the final production `.idx2`. Picture type and
+other Stage 2 diagnostics may be dropped later if the production filter does not consume them.
+
+---
+
+## 3. Explicitly not committed
 
 - record sizes and field packing;
 - picture-level header contents beyond C-1 and C-2;
@@ -80,7 +95,7 @@ fields are needed. No text index format is used.
 
 ---
 
-## 3. Open items carried from proposal v0.5 section 5.2
+## 4. Open items carried from proposal v0.5 section 5.2
 
 Still to be resolved at specification time (Stage 3):
 
@@ -94,7 +109,18 @@ Still to be resolved at specification time (Stage 3):
 
 ---
 
-## 4. Change log
+## 5. Change log
+
+### v0.4 - 2026-10-07 (DRAFT - PROPOSED UPDATE)
+
+- Drafted by ChatGPT for Claude cold review; v0.3 remains the current ratified-constraints baseline
+  until Dave ratifies this revision.
+- Proposed D-24 fixes the production architecture as index-driven while leaving final index
+  contents, record sizes and packing unfrozen until Stage 3.
+- FFmpeg per-macroblock QP side data reframed as a cross-check source, not a competing architecture.
+- Added non-frozen candidate Stage 2 contents, explicitly including per-picture `progressive_frame`
+  and picture type; final production retention remains open.
+- C-1 to C-5 are unchanged.
 
 ### v0.3 - 2026-10-06 (DRAFT; constraints ratified)
 

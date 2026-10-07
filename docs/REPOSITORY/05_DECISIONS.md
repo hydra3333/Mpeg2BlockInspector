@@ -1,10 +1,10 @@
 # 05 - Project Decisions
 
 **Document:** `05_DECISIONS.md`
-**Version:** 1.0 (RATIFIED)
-**Date:** 2026-10-06
-**Drafted by:** Claude (per D-23)
-**Status:** RATIFIED. Ratified by Dave on 2026-10-06. This file is the project's decision authority (D-20).
+**Version:** 1.1 (DRAFT - PROPOSED UPDATE)
+**Date:** 2026-10-07
+**Drafted by:** ChatGPT for Claude cold review; current revision workflow per proposed D-23 clarification
+**Status:** DRAFT FOR CLAUDE REVIEW AND DAVE RATIFICATION. Version 1.0 remains the current ratified decision authority until this revision is ratified (D-20).
 **Controlling proposal:** `MPEG2_Macroblock_Index_VapourSynth_Deblocking_Project_Proposal_v0_5.md`
 
 ---
@@ -37,22 +37,25 @@ Source abbreviations follow `06_DEBLOCK_CONCEPT.md` section 0.3.
 | D-05 | Starter knowledge documents | DECIDED | 2026-10-06 |
 | D-06 | Reference decoder / inspector sources | DECIDED | 2026-10-06 |
 | D-07 | Strength evolution | DECIDED FOR CURRENT SCOPE | 2026-10-06 |
-| D-08 | Existing-filter baseline | CLARIFIED | 2026-10-06 |
+| D-08 | Existing-filter baseline | CLARIFIED; proposed amendment by D-26 | 2026-10-06 |
 | D-09 | Frame-owned processing model | DECIDED | 2026-10-06 |
 | D-10 | Family A as leading hypothesis | DECIDED | 2026-10-06 |
-| D-11 | Family B as mandatory control | DECIDED | 2026-10-06 |
+| D-11 | Family B as mandatory control | DECIDED; proposed supersession by D-24 | 2026-10-06 |
 | D-12 | Family C optional | DECIDED | 2026-10-06 |
 | D-13 | First metadata set: quantiser + transform state | DECIDED | 2026-10-06 |
 | D-14 | Prediction type as Stage 1 diagnostic only | DECIDED | 2026-10-06 |
-| D-15 | Stage 2 measures metadata values independently | DECIDED | 2026-10-06 |
+| D-15 | Stage 2 measures metadata values independently | DECIDED; proposed amendment by D-24 | 2026-10-06 |
 | D-16 | Stage 2 results by I/P/B picture type | DECIDED | 2026-10-06 |
-| D-17 | Custom `.idx2` provisional | DECIDED | 2026-10-06 |
-| D-18 | Ablation step 2b | DECIDED | 2026-10-06 |
+| D-17 | Custom `.idx2` provisional | DECIDED; proposed supersession by D-24 | 2026-10-06 |
+| D-18 | Ablation step 2b | DECIDED; proposed supersession by D-24 | 2026-10-06 |
 | D-19 | Decision numbering | DECIDED | 2026-10-06 |
 | D-20 | This file is the decision authority | DECIDED | 2026-10-06 |
 | D-21 | Labelling of accepted knowledge | DECIDED | 2026-10-06 |
 | D-22 | Scope of `02_INDEX_FORMAT_SPEC.md` | DECIDED | 2026-10-06 |
-| D-23 | Drafting status and repository file conventions | DECIDED | 2026-10-06 |
+| D-23 | Drafting status and repository file conventions | DECIDED; proposed clarification | 2026-10-06 |
+| D-24 | Index-driven production architecture | PROPOSED | 2026-10-07 |
+| D-25 | Chroma deblocking in scope on mechanism | PROPOSED | 2026-10-07 |
+| D-26 | Stage 2 evidence hierarchy and material | PROPOSED | 2026-10-07 |
 
 ---
 
@@ -105,6 +108,13 @@ Initial work uses one manually selected global strength. A future `auto` mode or
 
 Do not assume that an existing MPEG-2-specific deblocking filter is available. Research first establishes what relevant historical/generic post-processing algorithms or implementations exist and whether comparison is meaningful. The unfiltered decode and ground-truth source remain mandatory baselines.
 
+**Proposed v1.1 amendment (D-26, subject to ratification):** the unfiltered decode remains a
+mandatory baseline for every clip. A paired higher-quality reference is used only where one
+actually exists, principally the software-transcode pairs. Real LG recorder material has no
+ground-truth source and is judged using seam-local/no-harm diagnostics plus Dave's visual
+assessment. An existing-filter yardstick is not part of the Stage 2 plan; it may be revisited
+only if later evidence creates a specific need.
+
 ---
 
 ## 3. Decisions D-09 to D-17 (DECIDED by Dave, 2026-10-06)
@@ -148,6 +158,7 @@ Origin: ChatGPT final cross-review (FCR section 14, candidates D-A to D-I), numb
 - **Rationale:** The prior art shows a pixel-only method handling mixed frame/field coding (PA
   S10); the project must beat it to justify metadata.
 - **Evidence:** PA Q11, 6.2; PA-add 3.6; CR 3.4; FCR 12.
+- **Proposed disposition:** SUPERSEDED by D-24 on ratification.
 
 ### D-12 - Family C optional - DECIDED
 
@@ -187,6 +198,9 @@ Origin: ChatGPT final cross-review (FCR section 14, candidates D-A to D-I), numb
 - **Rationale:** QP may be available without a custom index (K-09); the index must justify itself
   by what only it provides.
 - **Evidence:** CR 11; CRSP Q5; GRSP 13; FCR 11.
+- **Proposed v1.1 amendment:** D-24 removes the requirement to measure transform-state value
+  against pixel-detected geometry. Stage 2 still measures the value of real per-macroblock QP
+  using indexed geometry held constant.
 
 ### D-16 - Stage 2 results by I/P/B picture type - DECIDED
 
@@ -205,6 +219,9 @@ Origin: ChatGPT final cross-review (FCR section 14, candidates D-A to D-I), numb
 - **Alternatives considered:** Architecture A (custom index) versus Architecture B (decoder QP
   side data plus pixel-only geometry), `06` section 9.4.
 - **Evidence:** PA S18; CR 7; GRSP 9-10; FCR 7.
+- **Proposed disposition:** SUPERSEDED by D-24 on ratification. The final index contents and
+  packing remain unfrozen under D-22 and `02_INDEX_FORMAT_SPEC.md`; only the production
+  architecture ceases to be provisional.
 
 ---
 
@@ -227,6 +244,8 @@ Origin: Dave's rulings on issues I-1 to I-6 tabled by Claude before drafting (ch
   2b is a Family B versus metadata-blind Family A comparison, not a pure kernel isolation
   (`06` section 9.2).
 - **Evidence:** FCR 11; Claude chat replies of 2026-10-06 (after GRSP, and issue I-1).
+- **Proposed disposition:** SUPERSEDED by D-24 on ratification. Its useful fixed-QP idea survives
+  in the indexed-only Stage 2 comparison, but pixel-detected geometry does not.
 
 ### D-19 - Decision numbering - DECIDED
 
@@ -267,10 +286,83 @@ Origin: Dave's rulings on issues I-1 to I-6 tabled by Claude before drafting (ch
   and change log; superseded copies go to `superseded/`; files are US-ASCII with CRLF line endings,
   mechanically checked.
 - **Workflow:** Claude drafts; ChatGPT performs a cold technical review; Dave amends and ratifies.
+- **Proposed v1.1 clarification:** the workflow line above records the initial repository-drafting
+  round. For the current revision round the agreed working sequence is ChatGPT draft -> Claude
+  cold review -> Dave amendment/ratification. The filename/version/format conventions remain
+  unchanged.
 
 ---
 
-## 5. Change log
+## 5. Proposed decisions D-24 to D-26 (for Claude review and Dave ratification)
+
+### D-24 - Index-driven production architecture - PROPOSED
+
+- **Origin:** Dave ruling 2026-10-07 after review of the original architecture and the later
+  Stage 0 falsification expansion; reconciled by Claude in
+  `Claude_REVIEW_Reconciliation_After_Handover_v0_1.md`.
+- **Issue:** Whether Stage 2 must build a pixel-only seam-position detector / Family B to justify
+  the custom index architecture.
+- **Alternatives considered:** retain Family B and pixel-detected geometry as an architecture
+  falsification control; or define the production filter as index-driven and spend Stage 2 on the
+  filtering problem itself.
+- **Decision:** The production MPEG-2 deblocker requires its matching index and consumes
+  authoritative transform geometry from it. Stage 2 will not implement or evaluate a pixel-only
+  seam-position detector or Family B pixel-only deblocker. Pixels remain required for
+  blocking-versus-real-edge classification and correction limiting at known indexed seams.
+- **Rationale:** The index is part of the product definition. Reconstructing exact MPEG-2 geometry
+  from pixels answers an architecture question the product no longer asks and would add substantial
+  non-production work. This is a scope decision, not an experimental finding that pixel-only
+  deblocking is inferior.
+- **Effect:** Supersedes D-11, D-17 and D-18; amends D-15 so only the value of real per-macroblock
+  QP is ablated while authoritative geometry is held constant. D-22 and the unfrozen final index
+  contents/packing remain in force.
+
+### D-25 - Chroma deblocking in scope on mechanism - PROPOSED
+
+- **Origin:** Dave ruling R-A, 2026-10-07; supported by Claude reference-decoder cold reads V2/V3
+  and the prior-art/practice review.
+- **Issue:** Whether Stage 2 must first prove that MPEG-2 4:2:0 chroma blocking exists or is worth
+  targeting before chroma deblocking enters production scope.
+- **Decision:** MPEG-2 4:2:0 chroma deblocking is in production scope on the verified coding
+  mechanism and supporting practice. Stage 2 does not require a preliminary go/no-go experiment
+  merely to establish that chroma blocking exists. It must instead determine safe/effective
+  chroma thresholds, strength, orientation/access behaviour and no-harm behaviour.
+- **Rationale:** 4:2:0 chroma is coded in quantised 8x8 blocks and, in the inspected reference
+  decoder, uses the macroblock's same effective quantiser scale. Blocking is therefore a valid
+  mechanism-level target.
+- **Open matters preserved:** threshold, strength, horizontal/vertical treatment, interlaced
+  sample access, colour smearing, field mixing and practical benefit/no-harm.
+
+### D-26 - Stage 2 evidence hierarchy and material - PROPOSED
+
+- **Origin:** Dave R-B plus ChatGPT/Claude reconciliation after the EP/MLS/LP Stage 1 runs.
+- **Decision:** Real LG recorder material is the primary Stage 2 product-feasibility evidence.
+  The unfiltered decode is the mandatory baseline for every clip. Real LG material is judged using
+  seam-local diagnostics, collateral-change/no-harm measures and Dave's visual assessment. The
+  software-transcode pairs remain secondary paired-reference evidence and are interpreted only as
+  movement toward or away from their higher-quality decoded sources, not as pristine ground truth.
+- **Scope boundary:** development/hold-out assignment, fixed-QP selection and leading-B exclusion
+  are Stage 2 design details, not repository decisions.
+- **Effect:** Amends D-08's inherited ground-truth wording for real recorder material. The Stage 2
+  design records Dave's separate ruling that no existing-filter yardstick is planned unless later
+  evidence creates a specific need.
+
+---
+
+## 6. Change log
+
+### v1.1 - 2026-10-07 (DRAFT - PROPOSED UPDATE)
+
+- Drafted by ChatGPT for Claude cold review; v1.0 remains ratified authority until Dave ratifies
+  this revision.
+- Added proposed D-24 (index-driven production architecture), D-25 (chroma in scope on mechanism)
+  and D-26 (Stage 2 evidence hierarchy/material).
+- Recorded proposed supersession of D-11, D-17 and D-18 and proposed amendment of D-15 by D-24.
+- Recorded proposed amendment of D-08 by D-26.
+- Clarified D-23 as the initial drafting-round workflow; current revision workflow is ChatGPT draft,
+  Claude cold review, Dave ratification.
+- Existing-filter yardstick explicitly excluded from the planned Stage 2 experiment; revisit only
+  if later evidence creates a specific need.
 
 ### v1.0 - 2026-10-06 (RATIFIED)
 
