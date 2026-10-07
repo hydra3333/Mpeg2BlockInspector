@@ -14,7 +14,7 @@ REM
 set "path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info%blocky%_2.vpy"
 REM
 set "mpg_path=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples"
-set "mpg_filepart=TEST_2A_A001%blocky%"
+set "mpg_filepart=TEST_4A_A003%blocky%"
 REM
 set "mpg_part=%mpg_path%\%mpg_filepart%"
 set "mpg_file=%mpg_part%.mpg"
