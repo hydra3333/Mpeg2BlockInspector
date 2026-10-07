@@ -8,8 +8,8 @@ set "path_Stage1_Inspector_Analyzer=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspe
 REM
 set "path_vspipe=D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe"
 REM
-set "recording_mode=EP"
-REM set "recording_mode=MLS"
+set "recording_mode=_EP"
+REM set "recording_mode=_MLS"
 REM
 set "path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info%recording_mode%_2.vpy"
 REM
@@ -51,6 +51,11 @@ del "%mpg_index%" >NUL 2>&1
 REM
 
 REM Run the Mpeg2BlockInspector
+@echo.>>"%mpg_log%" 2>&1
+@echo "%path_ffmpeg%" -v info -i "%mpg_file%" -c:v copy -an -f mpeg2video NUL >>"%mpg_log%" 2>&1
+@echo "%path_ffmpeg%" -v info -i "%mpg_file%" -c:v copy -an -f mpeg2video NUL
+"%path_ffmpeg%" -v info -i "%mpg_file%" -c:v copy -an -f mpeg2video NUL >>"%mpg_log%" 2>&1
+REM
 @echo.>>"%mpg_log%" 2>&1
 @echo "%path_ffmpeg%" -v error -i "%mpg_file%" -c:v copy -an -f mpeg2video - *pipe* "%path_Mpeg2BlockInspector%" -b - -m "%mpg_index%" >>"%mpg_log%" 2>&1
 @echo "%path_ffmpeg%" -v error -i "%mpg_file%" -c:v copy -an -f mpeg2video - *pipe* "%path_Mpeg2BlockInspector%" -b - -m "%mpg_index%"

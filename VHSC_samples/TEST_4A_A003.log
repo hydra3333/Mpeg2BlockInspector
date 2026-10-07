@@ -36,11 +36,11 @@ dir "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_s
 
  Directory of E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples
 
-07/10/2026  06:04 PM         3,907,232 TEST_4A_A003.idx
-07/10/2026  06:04 PM             2,757 TEST_4A_A003.log
+07/10/2026  09:40 PM         3,907,232 TEST_4A_A003.idx
+07/10/2026  09:40 PM             2,757 TEST_4A_A003.log
 16/08/2026  07:17 PM         5,605,376 TEST_4A_A003.mpg
                3 File(s)      9,515,365 bytes
-               0 Dir(s)  930,897,424,384 bytes free
+               0 Dir(s)  930,873,237,504 bytes free
 
 python "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py" summary "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_4A_A003.idx" 
 VALID: E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_4A_A003.idx
@@ -195,7 +195,6 @@ sys.stderr.flush()
 clip.set_output()
 
 "D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --arg "src=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_4A_A003.mpg" --arg "idx=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_4A_A003.idx" --info "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_2.vpy" 
-Information: VideoSource track #0 index progress 2%
 
 --- [vpy] --------------------------------------------------------------
 --- [vpy] --- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_4A_A003.mpg' ---
@@ -247,6 +246,6 @@ SubSampling H: 1
 --- [vpy] RESULT: MATCH - all 300 frames have the same picture type
 --- [vpy] --------------------------------------------------------------
 
-Output 300 frames in 0.10 seconds (3142.78 fps)
+Output 300 frames in 0.10 seconds (3128.70 fps)
 
 

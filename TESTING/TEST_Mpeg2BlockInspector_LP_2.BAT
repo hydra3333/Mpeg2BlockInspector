@@ -9,12 +9,13 @@ REM
 set "path_vspipe=D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe"
 REM
 REM set "recording_mode=_EP"
-set "recording_mode=_MLS"
+set "recording_mode=_LP"
+REM set "recording_mode=_MLS"
 REM
 set "path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info%recording_mode%_2.vpy"
 REM
 set "mpg_path=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples"
-set "mpg_filepart=LG_576i_5%recording_mode%"
+set "mpg_filepart=LG_576i_3%recording_mode%"
 REM
 set "mpg_part=%mpg_path%\%mpg_filepart%"
 set "mpg_file=%mpg_part%.mpg"

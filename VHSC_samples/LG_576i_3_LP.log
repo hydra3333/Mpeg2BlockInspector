@@ -1,0 +1,281 @@
+
+set path_ 
+path_ffmpeg=C:\SOFTWARE\ffmpeg\ffmpeg.exe
+path_Mpeg2BlockInspector=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\x64\Release\Mpeg2BlockInspector.exe
+path_Stage1_Inspector_Analyzer=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py
+path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_LP_2.vpy
+path_vspipe=D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe
+
+set mpg_ 
+mpg_file=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg
+mpg_filepart=LG_576i_3_LP
+mpg_index=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx
+mpg_log=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.log
+mpg_part=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP
+mpg_path=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples
+mpg_temp_index=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx.s1tmp
+
+*** "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx.s1tmp" is a scratch file created by Inspector and renamed to be the actual index file at completion. 
+del "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx.s1tmp" 
+
+*** "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx" is the actual index file at completion. 
+del "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx" 
+
+"C:\SOFTWARE\ffmpeg\ffmpeg.exe" -v info -i "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg" -c:v copy -an -f mpeg2video NUL 
+ffmpeg version N-127095-gd5e01382aa-gf68e1afc1b+1 Copyright (c) 2000-2026 the FFmpeg developers
+  built with gcc 16.2.0 (Rev4, Built by MSYS2 project)
+  configuration:  --pkg-config=pkgconf --cc='ccache gcc' --cxx='ccache g++' --ld='ccache g++' --extra-cxxflags=-fpermissive --extra-cflags=-Wno-int-conversion --disable-autodetect --enable-amf --enable-bzlib --enable-cuda --enable-cuvid --enable-d3d12va --enable-d3d11va --enable-dxva2 --enable-iconv --enable-lzma --enable-nvenc --enable-zlib --disable-sdl2 --enable-ffnvcodec --enable-nvdec --enable-cuda-llvm --enable-gmp --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libdav1d --enable-libaom --disable-debug --enable-libfdk-aac --enable-fontconfig --enable-libass --enable-libbluray --enable-libfreetype --enable-libharfbuzz --enable-libvpl --enable-libmysofa --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvo-amrwbenc --enable-libwebp --enable-libxml2 --enable-libzimg --enable-libshine --enable-gpl --disable-openssl --disable-libtls --enable-avisynth --disable-mbedtls --enable-libxvid --enable-libopenmpt --enable-version3 --enable-librav1e --enable-libsrt --enable-libgsm --enable-libvmaf --enable-libsvtav1 --enable-chromaprint --disable-decklink --enable-frei0r --enable-libaribb24 --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libflite --enable-libfribidi --disable-libgme --enable-libilbc --enable-libsvthevc --disable-libkvazaar --enable-libmodplug --enable-librist --enable-librtmp --enable-librubberband --disable-libssh --disable-libtesseract --disable-libxavs --enable-libzmq --enable-libzvbi --enable-openal --enable-libcodec2 --enable-ladspa --enable-vapoursynth --enable-vulkan --disable-libdavs2 --disable-libxavs2 --disable-libuavs3d --enable-libplacebo --enable-libjxl --enable-liblc3 --enable-opencl --enable-opengl --disable-libopenh264 --enable-gnutls --extra-cflags=-DLIBTWOLAME_STATIC --extra-cflags=-DMODPLUG_STATIC --extra-cflags=-DCHROMAPRINT_NODLL --extra-libs=-lpsapi --extra-cflags=-DLIBXML_STATIC --extra-libs=-liconv --disable-w32threads --enable-nonfree
+  libavutil      61. 10.100 / 61. 10.100
+  libavcodec     63. 16.100 / 63. 16.100
+  libavformat    63.  7.100 / 63.  7.100
+  libavdevice    63.  2.100 / 63.  2.100
+  libavfilter    12.  5.100 / 12.  5.100
+  libswscale     10.  2.100 / 10.  2.100
+  libswresample   7.  3.101 /  7.  3.101
+[in#0/mpeg @ 00000232e16242c0] DTS 18000 < 25200 out of order
+Input #0, mpeg, from 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg':
+  Duration: 00:00:08.16, start: 0.200000, bitrate: 2875 kb/s
+  Stream #0:0[0x1e0]: Video: mpeg2video (Main), yuv420p(tv, top first), 720x576 [SAR 16:15 DAR 4:3], 25 fps, 25 tbr, 90k tbn, start 0.280000
+    Side data:
+      CPB properties: bitrate max/min/avg: 2456000/0/0 buffer size: 1835008 vbv_delay: N/A
+  Stream #0:1[0x80]: Audio: ac3, 48000 Hz, stereo, fltp, 192 kb/s, start 0.200000
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+Output #0, mpeg2video, to 'NUL':
+  Metadata:
+    encoder         : Lavf63.7.100
+  Stream #0:0: Video: mpeg2video (Main), yuv420p(tv, top first), 720x576 [SAR 16:15 DAR 4:3], q=2-31, 25 fps, 25 tbr, 90k tbn
+    Side data:
+      CPB properties: bitrate max/min/avg: 2456000/0/0 buffer size: 1835008 vbv_delay: N/A
+Press [q] to stop, [?] for help
+[out#0/mpeg2video @ 00000232e15cd800] video:2613KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.000000%
+frame=  204 fps=0.0 q=-1.0 Lsize=    2613KiB time=00:00:08.04 bitrate=2662.1kbits/s speed=2.31e+03x elapsed=0:00:00.00    
+
+"C:\SOFTWARE\ffmpeg\ffmpeg.exe" -v error -i "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg" -c:v copy -an -f mpeg2video - *pipe* "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\x64\Release\Mpeg2BlockInspector.exe" -b - -m "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx" 
+
+*** Inspector returned exit code: 0 
+
+dir /s /b "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.*" 
+E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx
+E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.log
+E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg
+
+dir "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.*" 
+ Volume in drive E is E-DRIVE
+ Volume Serial Number is 366A-E763
+
+ Directory of E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples
+
+07/10/2026  09:40 PM         2,656,928 LG_576i_3_LP.idx
+07/10/2026  09:40 PM             6,764 LG_576i_3_LP.log
+27/07/2026  12:42 AM         2,932,736 LG_576i_3_LP.mpg
+               3 File(s)      5,596,428 bytes
+               0 Dir(s)  930,873,237,504 bytes free
+
+python "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py" summary "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx" 
+VALID: E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx
+records=204 sequences=1
+dimensions: 720x576 MB=45x36 frames=204
+picture types: B=136 (66.67%), I=17 (8.33%), P=51 (25.00%)
+picture structures: FRAME=204 (100.00%)
+progressive_frame: 0=204 (100.00%)
+q_scale_type: 1=204 (100.00%)
+top_field_first: 1=204 (100.00%)
+repeat_first_field: 0=204 (100.00%)
+transform states: FIELD=174291 (52.74%), FRAME=75903 (22.97%), NONE=80286 (24.29%)
+coding states: INTER=275888 (83.48%), INTRA=29311 (8.87%), SKIPPED=25281 (7.65%)
+mixed FRAME/FIELD frames=198 (97.06%)
+QP effective: min=1 max=112 mean=21.285 median=18.0
+macroblock Q updates=105149 (31.82%)
+dct_type bits read=250194 (75.71%)
+INTER CBP=0 with dct_type bit actually read=0
+custom matrix frames: intra=0 non_intra=204 chroma_intra_diff=0 chroma_non_intra_diff=0
+I transforms: FIELD=15571 (56.54%), FRAME=11969 (43.46%)
+P transforms: FIELD=46452 (56.22%), FRAME=25586 (30.97%), NONE=10582 (12.81%)
+B transforms: FIELD=112268 (50.96%), FRAME=38348 (17.41%), NONE=69704 (31.64%)
+horizontal state neighbours: FIELD-FIELD=115747, FIELD-FRAME=48341, FIELD-NONE=57454, FRAME-FRAME=40515, FRAME-NONE=20878, NONE-NONE=40201
+vertical state neighbours: FIELD-FIELD=117962, FIELD-FRAME=49005, FIELD-NONE=52095, FRAME-FRAME=37144, FRAME-NONE=23788, NONE-NONE=41306
+QP histogram: 1=1659, 10=9268, 104=386, 112=12596, 12=29275, 14=50794, 16=59870, 18=45979, 2=485, 20=47547, 22=26088, 24=20473, 28=12373, 3=935, 32=3757, 36=807, 4=2989, 40=108, 44=49, 48=58, 5=1402, 52=60, 56=74, 6=554, 64=124, 7=384, 72=129, 8=1657, 80=168, 88=187, 96=245
+
+TYPE "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_LP_2.vpy" 
+import sys
+import os
+import struct
+#
+import vapoursynth as vs
+core = vs.core
+#
+# Run similar to :
+# "%path_vspipe%" --info "%path_vpy%" 2>>"%mpg_log%" 1>&2
+# "%path_vspipe%" --container y4m "%path_vpy%" NUL 2>>"%mpg_log%" 1>&2
+#
+# Optional overrides (one .vpy for any sample):
+# "%path_vspipe%" --arg "src=%mpg_file%" --arg "idx=%mpg_index%" --info "%path_vpy%" ...
+#
+DEFAULT_SOURCE = r"E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg"
+#
+source_filename = globals().get("src") or DEFAULT_SOURCE
+index_filename = globals().get("idx") or (os.path.splitext(source_filename)[0] + ".idx")
+#
+MAX_DIFFS_SHOWN = 20
+SHOW_FIRST = 100
+PICT_TYPE_FROM_INDEX = {1: "I", 2: "P", 3: "B"}   # MPEG-2 picture_coding_type
+#
+def log(text=""):
+    sys.stderr.write(f"--- [vpy] {text}\n")
+#
+def read_index_picture_types(path):
+    """Return the I/P/B letter for each record of a Stage 1 .idx, in record order.
+    Reads only the 32-byte file header and the 64-byte record headers; MB payloads are skipped.
+    Hard-aborts (raises) on any structural problem."""
+    with open(path, "rb") as f:
+        fh = f.read(32)
+        if len(fh) != 32:
+            raise ValueError("index: truncated file header")
+        magic, version, hsize, endian, final_count, file_flags, reserved = struct.unpack("<8sHHIQII", fh)
+        if magic != b"S1MBIDX1" or version != 1 or hsize != 32 or endian != 0x01020304:
+            raise ValueError(f"index: bad file header magic={magic!r} version={version} size={hsize}")
+        if not (file_flags & 1):
+            raise ValueError("index: file not marked complete")
+        types = []
+        while True:
+            rh = f.read(64)
+            if not rh:
+                break
+            if len(rh) != 64:
+                raise ValueError(f"index: truncated record header after record {len(types)}")
+            rmagic, rsize, ordinal = struct.unpack_from("<4sIQ", rh, 0)
+            pictype = rh[30]
+            mb_count = struct.unpack_from("<I", rh, 40)[0]
+            if rmagic != b"FRM1" or ordinal != len(types) or rsize != 64 + mb_count * 8:
+                raise ValueError(f"index: bad record header at record {len(types)}")
+            types.append(PICT_TYPE_FROM_INDEX.get(pictype, "?"))
+            f.seek(mb_count * 8, 1)
+        if len(types) != final_count:
+            raise ValueError(f"index: {len(types)} records but header says {final_count}")
+    return types
+#
+def bs_pict_type(frame):
+    """BestSource _PictType as a one-letter string, or None if the property is absent."""
+    if "_PictType" not in frame.props:
+        return None
+    v = frame.props["_PictType"]
+    if isinstance(v, (bytes, bytearray)):
+        v = v.decode("ascii", "replace")
+    return str(v)[:1]
+#
+clip = core.bs.VideoSource(source_filename)
+SOURCE_FRAME_COUNT = clip.num_frames
+#
+sys.stderr.write("\n")
+log("--------------------------------------------------------------")
+log(f"--- Vapoursynth Information '{source_filename}' ---")
+log(f"core.num_threads       = {core.num_threads}")
+log(f"core.max_cache_size    = {core.max_cache_size}")
+log(f"core.core_version      = {core.core_version}")
+log(f"core.api_version       = {core.api_version}")
+log("--- Clip Information ---")
+log(f"Original source frames = {SOURCE_FRAME_COUNT}")
+#
+# --- Per-frame picture-type comparison: BestSource _PictType vs Stage 1 index ---
+log("--- Picture-type comparison (BestSource vs index) ---")
+log(f"index file             = '{index_filename}'")
+if not os.path.isfile(index_filename):
+    log("RESULT: SKIPPED - index file not found")
+else:
+    index_types = read_index_picture_types(index_filename)
+    log(f"index records          = {len(index_types)}")
+    if len(index_types) != SOURCE_FRAME_COUNT:
+        log(f"COUNT MISMATCH: BestSource {SOURCE_FRAME_COUNT} vs index {len(index_types)}"
+            " (comparing the overlapping range only)")
+    first = clip.get_frame(0)
+    if bs_pict_type(first) is None:
+        log("RESULT: NOT POSSIBLE - BestSource does not set _PictType on this clip")
+        log("frame 0 properties     = " + ", ".join(sorted(first.props.keys())))
+    else:
+        n_compare = min(SOURCE_FRAME_COUNT, len(index_types))
+        diffs = []
+        missing = 0
+        bs_types = []
+        for n in range(n_compare):
+            t = bs_pict_type(clip.get_frame(n))
+            if t is None:
+                missing += 1
+                t = "-"
+            bs_types.append(t)
+            if t != index_types[n]:
+                diffs.append((n, t, index_types[n]))
+        log(f"frames compared        = {n_compare}")
+        log(f"first {SHOW_FIRST} BestSource    = {''.join(bs_types[:SHOW_FIRST])}")
+        log(f"first {SHOW_FIRST} index         = {''.join(index_types[:SHOW_FIRST])}")
+        if missing:
+            log(f"frames without _PictType = {missing}")
+        for n, t_bs, t_idx in diffs[:MAX_DIFFS_SHOWN]:
+            log(f"DIFF frame {n}: BestSource={t_bs} index={t_idx}")
+        if len(diffs) > MAX_DIFFS_SHOWN:
+            log(f"... {len(diffs) - MAX_DIFFS_SHOWN} further differences not shown")
+        if not diffs and len(index_types) == SOURCE_FRAME_COUNT:
+            log(f"RESULT: MATCH - all {n_compare} frames have the same picture type")
+        else:
+            log(f"RESULT: {len(diffs)} DIFFERENCE(S) in {n_compare} frames compared")
+log("--------------------------------------------------------------")
+sys.stderr.write("\n")
+#
+sys.stderr.flush()
+clip.set_output()
+
+"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --arg "src=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg" --arg "idx=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx" --info "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_LP_2.vpy" 
+
+--- [vpy] --------------------------------------------------------------
+--- [vpy] --- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg' ---
+--- [vpy] core.num_threads       = 24
+--- [vpy] core.max_cache_size    = 16339
+--- [vpy] core.core_version      = R81
+--- [vpy] core.api_version       = R4.3
+--- [vpy] --- Clip Information ---
+--- [vpy] Original source frames = 204
+--- [vpy] --- Picture-type comparison (BestSource vs index) ---
+--- [vpy] index file             = 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx'
+--- [vpy] index records          = 204
+--- [vpy] frames compared        = 204
+--- [vpy] first 100 BestSource    = BBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIB
+--- [vpy] first 100 index         = BBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIB
+--- [vpy] RESULT: MATCH - all 204 frames have the same picture type
+--- [vpy] --------------------------------------------------------------
+
+Output Index: 0
+Type: Video
+Width: 720
+Height: 576
+Frames: 204
+FPS: 25/1 (25.000 fps)
+Format Name: YUV420P8
+Color Family: YUV
+Alpha: No
+Sample Type: Integer
+Bits: 8
+SubSampling W: 1
+SubSampling H: 1
+
+"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --container y4m "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_LP_2.vpy" NUL 
+
+--- [vpy] --------------------------------------------------------------
+--- [vpy] --- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg' ---
+--- [vpy] core.num_threads       = 24
+--- [vpy] core.max_cache_size    = 16339
+--- [vpy] core.core_version      = R81
+--- [vpy] core.api_version       = R4.3
+--- [vpy] --- Clip Information ---
+--- [vpy] Original source frames = 204
+--- [vpy] --- Picture-type comparison (BestSource vs index) ---
+--- [vpy] index file             = 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.idx'
+--- [vpy] index records          = 204
+--- [vpy] frames compared        = 204
+--- [vpy] first 100 BestSource    = BBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIB
+--- [vpy] first 100 index         = BBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIBBPBBPBBPBBIB
+--- [vpy] RESULT: MATCH - all 204 frames have the same picture type
+--- [vpy] --------------------------------------------------------------
+
+Output 204 frames in 0.07 seconds (3004.18 fps)
+
+

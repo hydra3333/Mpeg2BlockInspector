@@ -12,7 +12,7 @@ core = vs.core
 # Optional overrides (one .vpy for any sample):
 # "%path_vspipe%" --arg "src=%mpg_file%" --arg "idx=%mpg_index%" --info "%path_vpy%" ...
 #
-DEFAULT_SOURCE = r"E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_5_MLS.mpg"
+DEFAULT_SOURCE = r"E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\LG_576i_3_LP.mpg"
 #
 source_filename = globals().get("src") or DEFAULT_SOURCE
 index_filename = globals().get("idx") or (os.path.splitext(source_filename)[0] + ".idx")

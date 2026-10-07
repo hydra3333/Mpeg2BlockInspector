@@ -3,7 +3,7 @@ set path_
 path_ffmpeg=C:\SOFTWARE\ffmpeg\ffmpeg.exe
 path_Mpeg2BlockInspector=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\x64\Release\Mpeg2BlockInspector.exe
 path_Stage1_Inspector_Analyzer=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py
-path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_2.vpy
+path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy
 path_vspipe=D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe
 
 set mpg_ 
@@ -36,11 +36,11 @@ dir "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_s
 
  Directory of E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples
 
-07/10/2026  05:38 PM         3,820,832 TEST_2A_A001.idx
-07/10/2026  05:38 PM             2,757 TEST_2A_A001.log
+07/10/2026  09:40 PM         3,820,832 TEST_2A_A001.idx
+07/10/2026  09:40 PM             2,755 TEST_2A_A001.log
 16/08/2026  07:15 PM         9,179,136 TEST_2A_A001.mpg
-               3 File(s)     13,002,725 bytes
-               0 Dir(s)  930,901,442,560 bytes free
+               3 File(s)     13,002,723 bytes
+               0 Dir(s)  930,877,157,376 bytes free
 
 python "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py" summary "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx" 
 VALID: E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx
@@ -67,10 +67,12 @@ horizontal state neighbours: FIELD-FIELD=15175, FIELD-FRAME=25437, FIELD-NONE=15
 vertical state neighbours: FIELD-FIELD=16903, FIELD-FRAME=23620, FIELD-NONE=1233, FRAME-FRAME=228283, FRAME-NONE=66355, NONE-NONE=125606
 QP histogram: 1=19, 10=63927, 12=45530, 14=29046, 16=17867, 18=16570, 2=124, 20=17208, 22=19915, 24=38012, 28=33295, 3=1169, 32=22186, 36=11479, 4=6504, 40=6276, 44=4622, 48=3148, 5=14586, 52=2155, 56=1679, 6=26354, 64=1061, 7=27959, 72=750, 8=63336, 80=423
 
-TYPE "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_2.vpy" 
+TYPE "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy" 
 import sys
-import os
-import struct
+from typing import Callable, Optional, Tuple, List
+from enum import Enum
+import random  # for the in-zone request shuffle
+random.seed(20260706)
 #
 import vapoursynth as vs
 core = vs.core
@@ -79,138 +81,39 @@ core = vs.core
 # "%path_vspipe%" --info "%path_vpy%" 2>>"%mpg_log%" 1>&2
 # "%path_vspipe%" --container y4m "%path_vpy%" NUL 2>>"%mpg_log%" 1>&2
 #
-# Optional overrides (one .vpy for any sample):
-# "%path_vspipe%" --arg "src=%mpg_file%" --arg "idx=%mpg_index%" --info "%path_vpy%" ...
-#
-DEFAULT_SOURCE = r"E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg"
-#
-source_filename = globals().get("src") or DEFAULT_SOURCE
-index_filename = globals().get("idx") or (os.path.splitext(source_filename)[0] + ".idx")
-#
-MAX_DIFFS_SHOWN = 20
-SHOW_FIRST = 100
-PICT_TYPE_FROM_INDEX = {1: "I", 2: "P", 3: "B"}   # MPEG-2 picture_coding_type
-#
-def log(text=""):
-    sys.stderr.write(f"--- [vpy] {text}\n")
-#
-def read_index_picture_types(path):
-    """Return the I/P/B letter for each record of a Stage 1 .idx, in record order.
-    Reads only the 32-byte file header and the 64-byte record headers; MB payloads are skipped.
-    Hard-aborts (raises) on any structural problem."""
-    with open(path, "rb") as f:
-        fh = f.read(32)
-        if len(fh) != 32:
-            raise ValueError("index: truncated file header")
-        magic, version, hsize, endian, final_count, file_flags, reserved = struct.unpack("<8sHHIQII", fh)
-        if magic != b"S1MBIDX1" or version != 1 or hsize != 32 or endian != 0x01020304:
-            raise ValueError(f"index: bad file header magic={magic!r} version={version} size={hsize}")
-        if not (file_flags & 1):
-            raise ValueError("index: file not marked complete")
-        types = []
-        while True:
-            rh = f.read(64)
-            if not rh:
-                break
-            if len(rh) != 64:
-                raise ValueError(f"index: truncated record header after record {len(types)}")
-            rmagic, rsize, ordinal = struct.unpack_from("<4sIQ", rh, 0)
-            pictype = rh[30]
-            mb_count = struct.unpack_from("<I", rh, 40)[0]
-            if rmagic != b"FRM1" or ordinal != len(types) or rsize != 64 + mb_count * 8:
-                raise ValueError(f"index: bad record header at record {len(types)}")
-            types.append(PICT_TYPE_FROM_INDEX.get(pictype, "?"))
-            f.seek(mb_count * 8, 1)
-        if len(types) != final_count:
-            raise ValueError(f"index: {len(types)} records but header says {final_count}")
-    return types
-#
-def bs_pict_type(frame):
-    """BestSource _PictType as a one-letter string, or None if the property is absent."""
-    if "_PictType" not in frame.props:
-        return None
-    v = frame.props["_PictType"]
-    if isinstance(v, (bytes, bytearray)):
-        v = v.decode("ascii", "replace")
-    return str(v)[:1]
+source_filename = r"E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg"
 #
 clip = core.bs.VideoSource(source_filename)
 SOURCE_FRAME_COUNT = clip.num_frames
 #
-sys.stderr.write("\n")
-log("--------------------------------------------------------------")
-log(f"--- Vapoursynth Information '{source_filename}' ---")
-log(f"core.num_threads       = {core.num_threads}")
-log(f"core.max_cache_size    = {core.max_cache_size}")
-log(f"core.core_version      = {core.core_version}")
-log(f"core.api_version       = {core.api_version}")
-log("--- Clip Information ---")
-log(f"Original source frames = {SOURCE_FRAME_COUNT}")
-#
-# --- Per-frame picture-type comparison: BestSource _PictType vs Stage 1 index ---
-log("--- Picture-type comparison (BestSource vs index) ---")
-log(f"index file             = '{index_filename}'")
-if not os.path.isfile(index_filename):
-    log("RESULT: SKIPPED - index file not found")
-else:
-    index_types = read_index_picture_types(index_filename)
-    log(f"index records          = {len(index_types)}")
-    if len(index_types) != SOURCE_FRAME_COUNT:
-        log(f"COUNT MISMATCH: BestSource {SOURCE_FRAME_COUNT} vs index {len(index_types)}"
-            " (comparing the overlapping range only)")
-    first = clip.get_frame(0)
-    if bs_pict_type(first) is None:
-        log("RESULT: NOT POSSIBLE - BestSource does not set _PictType on this clip")
-        log("frame 0 properties     = " + ", ".join(sorted(first.props.keys())))
-    else:
-        n_compare = min(SOURCE_FRAME_COUNT, len(index_types))
-        diffs = []
-        missing = 0
-        bs_types = []
-        for n in range(n_compare):
-            t = bs_pict_type(clip.get_frame(n))
-            if t is None:
-                missing += 1
-                t = "-"
-            bs_types.append(t)
-            if t != index_types[n]:
-                diffs.append((n, t, index_types[n]))
-        log(f"frames compared        = {n_compare}")
-        log(f"first {SHOW_FIRST} BestSource    = {''.join(bs_types[:SHOW_FIRST])}")
-        log(f"first {SHOW_FIRST} index         = {''.join(index_types[:SHOW_FIRST])}")
-        if missing:
-            log(f"frames without _PictType = {missing}")
-        for n, t_bs, t_idx in diffs[:MAX_DIFFS_SHOWN]:
-            log(f"DIFF frame {n}: BestSource={t_bs} index={t_idx}")
-        if len(diffs) > MAX_DIFFS_SHOWN:
-            log(f"... {len(diffs) - MAX_DIFFS_SHOWN} further differences not shown")
-        if not diffs and len(index_types) == SOURCE_FRAME_COUNT:
-            log(f"RESULT: MATCH - all {n_compare} frames have the same picture type")
-        else:
-            log(f"RESULT: {len(diffs)} DIFFERENCE(S) in {n_compare} frames compared")
-log("--------------------------------------------------------------")
-sys.stderr.write("\n")
+# Print info to stderr
+sys.stderr.write(f"\n--- [vpy] --------------------------------------------------------------\n")
+sys.stderr.write(f"--- [vpy]--- Vapoursynth Information '{source_filename}' ---\n")
+sys.stderr.write(f"--- [vpy] core.num_threads       = {core.num_threads}\n")
+sys.stderr.write(f"--- [vpy] core.num_threads/2     = {core.num_threads // 2}\n")
+sys.stderr.write(f"--- [vpy] core.max_cache_size    = {core.max_cache_size}\n")
+sys.stderr.write(f"--- [vpy] core.used_cache_size   = {core.used_cache_size}\n")
+sys.stderr.write(f"--- [vpy] core.core_version      = {core.core_version}\n")
+sys.stderr.write(f"--- [vpy] core.api_version       = {core.api_version}\n")
+sys.stderr.write(f"--- [vpy]--- Clip Information ---\n")
+sys.stderr.write(f"--- [vpy] Original source frames = {SOURCE_FRAME_COUNT}\n")
+sys.stderr.write(f"--- [vpy] --------------------------------------------------------------\n\n")
 #
 sys.stderr.flush()
 clip.set_output()
 
-"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --arg "src=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg" --arg "idx=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx" --info "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_2.vpy" 
+"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --info "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy" 
 
 --- [vpy] --------------------------------------------------------------
---- [vpy] --- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg' ---
+--- [vpy]--- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg' ---
 --- [vpy] core.num_threads       = 24
+--- [vpy] core.num_threads/2     = 12
 --- [vpy] core.max_cache_size    = 16339
+--- [vpy] core.used_cache_size   = 0
 --- [vpy] core.core_version      = R81
 --- [vpy] core.api_version       = R4.3
---- [vpy] --- Clip Information ---
+--- [vpy]--- Clip Information ---
 --- [vpy] Original source frames = 300
---- [vpy] --- Picture-type comparison (BestSource vs index) ---
---- [vpy] index file             = 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx'
---- [vpy] index records          = 300
---- [vpy] frames compared        = 300
---- [vpy] first 100 BestSource    = IBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPI
---- [vpy] first 100 index         = IBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPI
---- [vpy] RESULT: MATCH - all 300 frames have the same picture type
 --- [vpy] --------------------------------------------------------------
 
 Output Index: 0
@@ -227,25 +130,20 @@ Bits: 8
 SubSampling W: 1
 SubSampling H: 1
 
-"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --container y4m "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info_2.vpy" NUL 
+"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --container y4m "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy" NUL 
 
 --- [vpy] --------------------------------------------------------------
---- [vpy] --- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg' ---
+--- [vpy]--- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg' ---
 --- [vpy] core.num_threads       = 24
+--- [vpy] core.num_threads/2     = 12
 --- [vpy] core.max_cache_size    = 16339
+--- [vpy] core.used_cache_size   = 0
 --- [vpy] core.core_version      = R81
 --- [vpy] core.api_version       = R4.3
---- [vpy] --- Clip Information ---
+--- [vpy]--- Clip Information ---
 --- [vpy] Original source frames = 300
---- [vpy] --- Picture-type comparison (BestSource vs index) ---
---- [vpy] index file             = 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx'
---- [vpy] index records          = 300
---- [vpy] frames compared        = 300
---- [vpy] first 100 BestSource    = IBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPI
---- [vpy] first 100 index         = IBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPIBPBPBPBPI
---- [vpy] RESULT: MATCH - all 300 frames have the same picture type
 --- [vpy] --------------------------------------------------------------
 
-Output 300 frames in 0.11 seconds (2856.24 fps)
+Output 300 frames in 0.10 seconds (3089.74 fps)
 
 
