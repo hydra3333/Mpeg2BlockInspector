@@ -8,8 +8,8 @@ set "path_Stage1_Inspector_Analyzer=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspe
 REM
 set "path_vspipe=D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe"
 REM
-set "blocky="
-REM set "blocky=_blocky"
+REM set "blocky="
+set "blocky=_blocky"
 REM
 set "path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info%blocky%.vpy"
 REM

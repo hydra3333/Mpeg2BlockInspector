@@ -3,6 +3,8 @@ set path_
 path_ffmpeg=C:\SOFTWARE\ffmpeg\ffmpeg.exe
 path_Mpeg2BlockInspector=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\x64\Release\Mpeg2BlockInspector.exe
 path_Stage1_Inspector_Analyzer=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py
+path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy
+path_vspipe=D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe
 
 set mpg_ 
 mpg_file=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg
@@ -13,8 +15,10 @@ mpg_part=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VH
 mpg_path=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples
 mpg_temp_index=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx.s1tmp
 
+*** "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx.s1tmp" is a scratch file created by Inspector and renamed to be the actual index file at completion. 
 del "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx.s1tmp" 
 
+*** "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx" is the actual index file at completion. 
 del "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx" 
 
 "C:\SOFTWARE\ffmpeg\ffmpeg.exe" -v error -i "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg" -c:v copy -an -f mpeg2video - *pipe* "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\x64\Release\Mpeg2BlockInspector.exe" -b - -m "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx" 
@@ -32,11 +36,11 @@ dir "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_s
 
  Directory of E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples
 
-07/10/2026  12:05 PM         3,820,832 TEST_2A_A001.idx
-07/10/2026  12:05 PM             2,206 TEST_2A_A001.log
+07/10/2026  01:10 PM         3,820,832 TEST_2A_A001.idx
+07/10/2026  01:10 PM             2,755 TEST_2A_A001.log
 16/08/2026  07:15 PM         9,179,136 TEST_2A_A001.mpg
-               3 File(s)     13,002,174 bytes
-               0 Dir(s)  931,048,763,392 bytes free
+               3 File(s)     13,002,723 bytes
+               0 Dir(s)  930,913,689,600 bytes free
 
 python "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py" summary "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx" 
 VALID: E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.idx
@@ -62,4 +66,84 @@ B transforms: FIELD=569 (0.27%), FRAME=67735 (32.15%), NONE=142368 (67.58%)
 horizontal state neighbours: FIELD-FIELD=15175, FIELD-FRAME=25437, FIELD-NONE=1511, FRAME-FRAME=226401, FRAME-NONE=69177, NONE-NONE=126699
 vertical state neighbours: FIELD-FIELD=16903, FIELD-FRAME=23620, FIELD-NONE=1233, FRAME-FRAME=228283, FRAME-NONE=66355, NONE-NONE=125606
 QP histogram: 1=19, 10=63927, 12=45530, 14=29046, 16=17867, 18=16570, 2=124, 20=17208, 22=19915, 24=38012, 28=33295, 3=1169, 32=22186, 36=11479, 4=6504, 40=6276, 44=4622, 48=3148, 5=14586, 52=2155, 56=1679, 6=26354, 64=1061, 7=27959, 72=750, 8=63336, 80=423
+
+TYPE "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy" 
+import sys
+from typing import Callable, Optional, Tuple, List
+from enum import Enum
+import random  # for the in-zone request shuffle
+random.seed(20260706)
+#
+import vapoursynth as vs
+core = vs.core
+#
+# Run similar to :
+# "%path_vspipe%" --info "%path_vpy%" 2>>"%mpg_log%" 1>&2
+# "%path_vspipe%" --container y4m "%path_vpy%" NUL 2>>"%mpg_log%" 1>&2
+#
+source_filename = r"E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg"
+#
+clip = core.bs.VideoSource(source_filename)
+SOURCE_FRAME_COUNT = clip.num_frames
+#
+# Print info to stderr
+sys.stderr.write(f"\n--- [vpy] --------------------------------------------------------------\n")
+sys.stderr.write(f"--- [vpy]--- Vapoursynth Information '{source_filename}' ---\n")
+sys.stderr.write(f"--- [vpy] core.num_threads       = {core.num_threads}\n")
+sys.stderr.write(f"--- [vpy] core.num_threads/2     = {core.num_threads // 2}\n")
+sys.stderr.write(f"--- [vpy] core.max_cache_size    = {core.max_cache_size}\n")
+sys.stderr.write(f"--- [vpy] core.used_cache_size   = {core.used_cache_size}\n")
+sys.stderr.write(f"--- [vpy] core.core_version      = {core.core_version}\n")
+sys.stderr.write(f"--- [vpy] core.api_version       = {core.api_version}\n")
+sys.stderr.write(f"--- [vpy]--- Clip Information ---\n")
+sys.stderr.write(f"--- [vpy] Original source frames = {SOURCE_FRAME_COUNT}\n")
+sys.stderr.write(f"--- [vpy] --------------------------------------------------------------\n\n")
+#
+sys.stderr.flush()
+clip.set_output()
+
+"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --info "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy" 
+
+--- [vpy] --------------------------------------------------------------
+--- [vpy]--- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg' ---
+--- [vpy] core.num_threads       = 24
+--- [vpy] core.num_threads/2     = 12
+--- [vpy] core.max_cache_size    = 16339
+--- [vpy] core.used_cache_size   = 0
+--- [vpy] core.core_version      = R81
+--- [vpy] core.api_version       = R4.3
+--- [vpy]--- Clip Information ---
+--- [vpy] Original source frames = 300
+--- [vpy] --------------------------------------------------------------
+
+Output Index: 0
+Type: Video
+Width: 704
+Height: 576
+Frames: 300
+FPS: 25/1 (25.000 fps)
+Format Name: YUV420P8
+Color Family: YUV
+Alpha: No
+Sample Type: Integer
+Bits: 8
+SubSampling W: 1
+SubSampling H: 1
+
+"D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe" --container y4m "E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info.vpy" NUL 
+
+--- [vpy] --------------------------------------------------------------
+--- [vpy]--- Vapoursynth Information 'E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg' ---
+--- [vpy] core.num_threads       = 24
+--- [vpy] core.num_threads/2     = 12
+--- [vpy] core.max_cache_size    = 16339
+--- [vpy] core.used_cache_size   = 0
+--- [vpy] core.core_version      = R81
+--- [vpy] core.api_version       = R4.3
+--- [vpy]--- Clip Information ---
+--- [vpy] Original source frames = 300
+--- [vpy] --------------------------------------------------------------
+
+Output 300 frames in 0.10 seconds (3133.05 fps)
+
 
