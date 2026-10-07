@@ -1,10 +1,10 @@
 # 06 - MPEG-2 Deblocking Concept
 
 **Document:** `06_DEBLOCK_CONCEPT.md`
-**Version:** 1.1 (DRAFT - PROPOSED UPDATE)
+**Version:** 1.1 (RATIFIED)
 **Date:** 2026-10-08
-**Drafted by:** ChatGPT for Claude cold review
-**Status:** DRAFT FOR CLAUDE REVIEW AND DAVE RATIFICATION. Version 1.0 remains the current ratified Stage 0 concept until this revision is ratified.
+**Drafted by:** ChatGPT; cold-reviewed by Claude; ratified by Dave
+**Status:** RATIFIED by Dave on 2026-10-08 after Claude cold review. This v1.1 file is the current Stage 0 concept authority.
 Items labelled HYPOTHESIS remain hypotheses and items labelled OPEN remain unresolved; ratification
 does not change their evidence status. The Stage 0 research and review files are provenance only.
 **Controlling proposal:** `MPEG2_Macroblock_Index_VapourSynth_Deblocking_Project_Proposal_v0_5.md`
@@ -22,9 +22,8 @@ experiment, and the open questions. It does NOT define filter equations, thresho
 strength scale; those remain undecided (section 12).
 
 Version 1.0 introduced no new technical conclusions beyond the then-completed research trail.
-This proposed v1.1 update adds only post-v1.0 findings and Dave rulings that are explicitly traced
-to the newer provenance in section 0.3. Nothing new in v1.1 becomes project authority until Dave
-ratifies this revision. Where this document and a provenance file differ, the difference must be
+This ratified v1.1 update adds only post-v1.0 findings and Dave rulings that are explicitly traced
+to the newer provenance in section 0.3. Dave ratified this revision on 2026-10-08. Where this document and a provenance file differ, the difference must be
 raised, not silently resolved.
 
 ### 0.2 Labels
@@ -34,7 +33,7 @@ raised, not silently resolved.
   does not change the evidence status of anything it contains.
 - **PROPOSED** - drafted for ratification; not yet project knowledge.
 - **ACCEPTED (evidence level)** - knowledge item ratified by Dave, with its evidence level kept
-  visible (D-21). Before ratification these are shown as **PROPOSED -> ACCEPTED (evidence level)**.
+  visible (D-21). In drafts awaiting ratification, the proposed acceptance and evidence level are shown explicitly.
 - **HYPOTHESIS** - design inference or proposal, not established by evidence.
 - **OPEN** - unresolved; listed in section 11.
 
@@ -75,7 +74,7 @@ The central question this concept sets up for Stage 2:
 
 A negative answer about the filter's practical value is acceptable and stops or redirects the
 project at the feasibility gate. Whether the production architecture should use an index is no
-longer part of that gate (proposed D-24).
+longer part of that gate (D-24).
 
 ---
 
@@ -102,10 +101,9 @@ parity-aware sample access inside this model.
 ## 3. MPEG-2 knowledge this concept relies on
 
 K-01 to K-06, K-08 and K-09 remain **ACCEPTED** at the evidence level shown (D-21; ratified
-by Dave on 2026-10-06). K-07 is revised in v1.1 and is **PROPOSED -> ACCEPTED** in this draft;
+by Dave on 2026-10-06). K-07 is revised in v1.1 and is **ACCEPTED** (ratified 2026-10-08);
 its expanded decoder-semantics wording is supported by a reference-decoder cold read. K-10 and
-K-11 are likewise **PROPOSED -> ACCEPTED** and require Dave's ratification. Numbering continues
-the K-nn sequence.
+K-11 are likewise **ACCEPTED** (ratified 2026-10-08). Numbering continues the K-nn sequence.
 
 | ID | Knowledge | Evidence level | Source |
 |---|---|---|---|
@@ -115,11 +113,11 @@ the K-nn sequence.
 | K-04 | In MPEG-2 4:2:0 frame pictures, chroma blocks are organised in frame structure for DCT coding and do not follow the per-macroblock luma dct_type reorganisation. Field pictures: see section 4.6. | RESEARCHED + VERIFIED (reference-decoder implementation, V2) | CM 8.1; CDR V2 |
 | K-05 | quantiser_scale_code must be mapped through q_scale_type to the actual quantiser scale; weighting matrices also affect quantisation. | RESEARCHED | CM 12, 13 |
 | K-06 | Coded order and display order differ when B pictures are present; index correspondence must follow the output (display) frame sequence that maps to VapourSynth frames. | RESEARCHED | CM 10 |
-| K-07 | FRAME/FIELD/NONE describes applicable coded residual transform geometry, not merely the presence or value of dct_type. NONE applies where no coded residual transform geometry exists, including skipped macroblocks and non-intra macroblocks with effective coded_block_pattern == 0; a dct_type bit may nevertheless have been read in the latter case. A stale/default decoder dct_type must not create a FRAME/FIELD state. Field pictures are identified separately by picture_structure. | RESEARCHED syntax + VERIFIED reference-decoder semantics; revised derivation/implementation rule PROPOSED -> ACCEPTED | CM 5.2; CRV R2; GRSP 4; SC v0.2 9.3; Claude repository-draft review M1 |
+| K-07 | FRAME/FIELD/NONE describes applicable coded residual transform geometry, not merely the presence or value of dct_type. NONE applies where no coded residual transform geometry exists, including skipped macroblocks and non-intra macroblocks with effective coded_block_pattern == 0; a dct_type bit may nevertheless have been read in the latter case. A stale/default decoder dct_type must not create a FRAME/FIELD state. Field pictures are identified separately by picture_structure. | RESEARCHED syntax + VERIFIED reference-decoder semantics; revised derivation/implementation rule ACCEPTED (2026-10-08) | CM 5.2; CRV R2; GRSP 4; SC v0.2 9.3; Claude repository-draft review M1 |
 | K-08 | Motion compensation can copy blocking from reference pictures into the current picture (researched). Such blocking can lie off the current picture's transform grid and so bound what a current-grid post-filter can target (inference). | HYPOTHESIS supported by RESEARCHED evidence | PA S24, S03; CRV R3; GRSP 5 |
 | K-09 | FFmpeg's MPEG-2 decoder can export per-macroblock quantiser information as frame side data associated with output frames. This is retained as a cross-check source, not a competing production architecture. | RESEARCHED | PA S18; CR section 7; GRSP 9 |
-| K-10 | In the inspected reference decoder's MPEG-2 4:2:0 path, chroma blocks use the macroblock's same `quantizer_scale`; for 4:2:0 the decoder selects the luma quantisation matrices rather than separate chroma matrices. This is VERIFIED implementation knowledge, not a normative H.262 claim. | VERIFIED (reference-decoder implementation, V3) - PROPOSED -> ACCEPTED | CDR V3 |
-| K-11 | In the inspected reference decoder, MPEG-2 4:2:0 field prediction in frame pictures reconstructs chroma with alternating field parity by line: even chroma lines top field, odd chroma lines bottom field. This verifies the parity premise; same-field access in the post-filter remains a design choice. | VERIFIED (reference-decoder implementation, V4) - PROPOSED -> ACCEPTED | RR section 1, V4 |
+| K-10 | In the inspected reference decoder's MPEG-2 4:2:0 path, chroma blocks use the macroblock's same `quantizer_scale`; for 4:2:0 the decoder selects the luma quantisation matrices rather than separate chroma matrices. This is VERIFIED implementation knowledge, not a normative H.262 claim. | VERIFIED (reference-decoder implementation, V3) - ACCEPTED (2026-10-08) | CDR V3 |
+| K-11 | In the inspected reference decoder, MPEG-2 4:2:0 field prediction in frame pictures reconstructs chroma with alternating field parity by line: even chroma lines top field, odd chroma lines bottom field. This verifies the parity premise; same-field access in the post-filter remains a design choice. | VERIFIED (reference-decoder implementation, V4) - ACCEPTED (2026-10-08) | RR section 1, V4 |
 
 The absence of a per-macroblock dct_type export is a negative search result, not knowledge; it
 is recorded as O-13.
@@ -220,7 +218,7 @@ the frame-picture logic (CR 4.7). No field pictures occurred in the seven clips 
 
 ### 4.7 Chroma (4:2:0)
 
-**AGREED / PROPOSED UPDATE (K-04, K-10, K-11; proposed D-25).**
+**AGREED / RATIFIED UPDATE (K-04, K-10, K-11; D-25).**
 
 - One 8x8 chroma transform block per plane per macroblock; chroma transform seams coincide with
   luma macroblock boundaries. There is no internal chroma transform seam.
@@ -231,7 +229,7 @@ the frame-picture logic (CR 4.7). No field pictures occurred in the seven clips 
   by line: even chroma lines top field, odd chroma lines bottom field (K-11).
 - Whether horizontal chroma deblocking on interlaced frame pictures should use same-field sample
   access remains an OPEN Stage 2 design choice; V4 verifies the parity premise, not the filter rule.
-- Chroma deblocking is proposed to be in production scope on mechanism (D-25). Stage 2 therefore
+- Chroma deblocking is in production scope on mechanism (D-25). Stage 2 therefore
   tests safe/effective threshold, strength, H/V treatment and no-harm behaviour rather than first
   asking whether chroma blocking exists at all.
 - Interlaced 4:2:0 chroma upsampling errors (colour combing) are a distinct phenomenon and are out
@@ -245,7 +243,7 @@ the frame-picture logic (CR 4.7). No field pictures occurred in the seven clips 
 
 1. **Seam geometry - where the transform seams are.** In the production index-driven path, seam
    positions are supplied by MPEG-2 geometry and metadata. Pixel detection of seam positions is
-   not part of the design (proposed D-24).
+   not part of the design (D-24).
 2. **Eligibility and magnitude - whether, and how far, to correct a known seam.** Bounded by the
    global strength and codec information. A quantiser-based bound is an empirical or derived
    threshold, not a rigorous maximum, because weighting matrices, intra/non-intra rules,
@@ -303,12 +301,12 @@ Short-support, quantiser-aware, edge-preserving boundary filtering:
 Prior art studied (not adopted): MPEG-4 Annex F / Kim et al. two-mode filter and libpostproc
 (PA S01-S03). These inform but do not define the kernel (CR section 10).
 
-### 8.2 Family B - historical control, proposed superseded
+### 8.2 Family B - historical control, superseded by D-24
 
-**DECIDED historically (D-11); PROPOSED SUPERSEDED by D-24.**
+**DECIDED historically (D-11); SUPERSEDED by D-24.**
 
 Family B was the pixel-only, interlace-aware falsification control in the Stage 0 architecture
-experiment. Under proposed D-24 the production architecture is index-driven by definition, so
+experiment. Under D-24 the production architecture is index-driven by definition, so
 Stage 2 no longer implements or evaluates Family B. This is a scope change, not an experimental
 finding that Family B is inferior.
 
@@ -323,7 +321,7 @@ broader restoration problem than intended. Must not delay testing Family A.
 
 ## 9. Stage 2 experiment (feasibility-gate evidence)
 
-**PROPOSED UPDATE (D-15, D-16, proposed D-24/D-25/D-26).**
+**RATIFIED UPDATE (D-15, D-16, D-24/D-25/D-26).**
 
 The detailed experiment belongs in `Stage2_Experiment_Design_v0_2.md`; this section fixes only
 the concept-level structure.
@@ -356,11 +354,11 @@ QP bands          : behaviour across quantiser severity, including QP 112 satura
 ```
 
 There is no Stage 2 comparison of pixel-detected geometry versus indexed geometry, and no Family B
-architecture comparison (proposed D-24).
+architecture comparison (D-24).
 
 ### 9.3 Material and evidence hierarchy
 
-**PROPOSED (D-26).**
+**DECIDED (D-26).**
 
 Primary product evidence is real LG recorder material. The unfiltered decode is the mandatory
 baseline for every clip. On real LG material, use seam-local diagnostics, collateral-change/no-harm
@@ -375,7 +373,7 @@ revisited only if later evidence creates a specific need.
 
 ### 9.4 Architectural meaning
 
-The production deblocker is index-driven by definition under proposed D-24. Stage 2 tests whether
+The production deblocker is index-driven by definition under D-24. Stage 2 tests whether
 the deblocking filter is worthwhile and which indexed metadata the final filter actually needs; it
 does not decide between index-driven and pixel-only production architectures. Final index contents
 and packing remain unfrozen (`02_INDEX_FORMAT_SPEC.md`; D-22).
@@ -394,7 +392,7 @@ to off-grid locations. This can bound the achievable improvement in P and B pict
 
 ## 11. Open questions
 
-O-10a and O-10b from v1.0 are withdrawn by proposed D-24; they are not answered experimentally,
+O-10a and O-10b from v1.0 are withdrawn by D-24; they are not answered experimentally,
 but become out of scope. O-03 is closed by the Stage 1 gated-NONE design/source review and VALID
 runs. Remaining/open items are:
 
@@ -436,25 +434,27 @@ neighbour transitions, quantiser distribution, coding-mode counts, picture-type 
 
 ## 13. Evidence trail
 
-The research and review files listed in section 0.3 are the evidence. The newer CDR and RR files carry the V1-V4 reference-decoder cold-read provenance used by this proposed update. They remain unchanged in the project's research folder and are not superseded by this document. This document records the
+The research and review files listed in section 0.3 are the evidence. The newer CDR and RR files carry the V1-V4 reference-decoder cold-read provenance used by this v1.1 update. They remain unchanged in the project's research folder and are not superseded by this document. This document records the
 ratifiable synthesis and points to them; it does not restate them.
 
 ---
 
 ## 14. Change log
 
-### v1.1 - 2026-10-08 (DRAFT - CORRECTED AFTER CLAUDE REVIEW)
+### v1.1 - 2026-10-08 (RATIFIED)
+
+- Cold-reviewed by Claude (`Claude_REVIEW_OF_ChatGPT_Repository_Drafts_v1_1_v0_1.md`); Dave ratified the corrected repository set on 2026-10-08.
 
 - Drafted by ChatGPT for Claude cold review; v1.0 remains ratified authority until Dave ratifies
   this revision.
-- Re-grounded Stage 2 around the proposed index-driven production architecture (D-24); Family B and
+- Re-grounded Stage 2 around the ratified index-driven production architecture (D-24); Family B and
   pixel-detected seam geometry removed from the planned experiment.
-- Added proposed D-25 chroma-in-scope consequence and revised the Stage 2 evidence hierarchy per
-  proposed D-26. Existing-filter yardstick explicitly excluded from the planned experiment.
-- K-03/K-04 evidence upgraded with Claude V1/V2 reference-decoder verification; proposed K-10
+- Added D-25 chroma-in-scope consequence and revised the Stage 2 evidence hierarchy per
+  D-26. Existing-filter yardstick explicitly excluded from the planned experiment.
+- K-03/K-04 evidence upgraded with Claude V1/V2 reference-decoder verification; K-10
   (V3 chroma QP/matrix path) and K-11 (V4 chroma field parity) added at VERIFIED implementation
   level.
-- K-07 explicitly marked as revised in v1.1 and PROPOSED -> ACCEPTED; its expanded decoder
+- K-07 explicitly marked as revised in v1.1 and ACCEPTED; its expanded decoder
   semantics are identified as VERIFIED reference-decoder implementation evidence rather than
   silently inheriting the v1.0 acceptance of the older wording.
 - Clarified that D-09, not transform geometry itself, is the reason for same-field-polarity access;

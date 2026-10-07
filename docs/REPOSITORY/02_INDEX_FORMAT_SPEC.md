@@ -1,10 +1,10 @@
 # 02 - Index Format Specification
 
 **Document:** `02_INDEX_FORMAT_SPEC.md`
-**Version:** 0.4 (DRAFT - PROPOSED UPDATE; constraints C-1 to C-5 remain ratified)
+**Version:** 0.4 (DRAFT / NOT FROZEN; current constraints and architecture ratified)
 **Date:** 2026-10-08
-**Drafted by:** ChatGPT for Claude cold review
-**Status:** DRAFT. NOT FROZEN. Version 0.3 remains the current ratified-constraints baseline until this revision is ratified. Index content, record sizes and field packing are not committed until Stage 3 after the feasibility gate (D-01, D-22, C-5). Under proposed D-24 the production architecture is index-driven; that does not freeze the final index contents or packing.
+**Drafted by:** ChatGPT; cold-reviewed by Claude; ratified by Dave
+**Status:** DRAFT. NOT FROZEN. Version 0.4 is the current ratified-constraints baseline. Index content, record sizes and field packing are not committed until Stage 3 after the feasibility gate (D-01, D-22, C-5). Under D-24 the production architecture is index-driven; that does not freeze the final index contents or packing.
 **Decision authority:** `05_DECISIONS.md`
 
 ---
@@ -16,7 +16,7 @@ format. The draft binary layout in proposal v0.5 section 5.1 (magic "MBX2", 16-b
 4-byte frame header, 2 bytes per macroblock) is illustrative history only and is not reproduced
 or committed here.
 
-Under proposed D-24 the production deblocker requires a matching index; the index architecture is
+Under D-24 the production deblocker requires a matching index; the index architecture is
 therefore no longer provisional. The **contents and packing** remain deliberately unfrozen until
 Stage 3. FFmpeg per-macroblock QP side data (K-09) is retained as a useful cross-check source, not
 as a competing production architecture.
@@ -111,11 +111,13 @@ Still to be resolved at specification time (Stage 3):
 
 ## 5. Change log
 
-### v0.4 - 2026-10-08 (DRAFT - POST-REVIEW PACKAGE; TECHNICAL CONTENT UNCHANGED)
+### v0.4 - 2026-10-08 (DRAFT / NOT FROZEN; RATIFIED CONSTRAINTS)
 
-- Drafted by ChatGPT for Claude cold review; v0.3 remains the current ratified-constraints baseline
-  until Dave ratifies this revision.
-- Proposed D-24 fixes the production architecture as index-driven while leaving final index
+- Cold-reviewed by Claude (`Claude_REVIEW_OF_ChatGPT_Repository_Drafts_v1_1_v0_1.md`); Dave ratified the v0.4 constraints/current architecture wording on 2026-10-08. The binary format remains deliberately unfrozen.
+
+- Supersedes v0.3 as the current ratified-constraints baseline; the specification itself remains
+  DRAFT / NOT FROZEN.
+- D-24 fixes the production architecture as index-driven while leaving final index
   contents, record sizes and packing unfrozen until Stage 3.
 - FFmpeg per-macroblock QP side data reframed as a cross-check source, not a competing architecture.
 - Added non-frozen candidate Stage 2 contents, explicitly including per-picture `progressive_frame`

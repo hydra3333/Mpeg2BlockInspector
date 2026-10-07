@@ -2,7 +2,7 @@
 
 **Document:** `02_INDEX_FORMAT_SPEC.md`
 **Version:** 0.4 (DRAFT - PROPOSED UPDATE; constraints C-1 to C-5 remain ratified)
-**Date:** 2026-10-07
+**Date:** 2026-10-08
 **Drafted by:** ChatGPT for Claude cold review
 **Status:** DRAFT. NOT FROZEN. Version 0.3 remains the current ratified-constraints baseline until this revision is ratified. Index content, record sizes and field packing are not committed until Stage 3 after the feasibility gate (D-01, D-22, C-5). Under proposed D-24 the production architecture is index-driven; that does not freeze the final index contents or packing.
 **Decision authority:** `05_DECISIONS.md`
@@ -111,7 +111,7 @@ Still to be resolved at specification time (Stage 3):
 
 ## 5. Change log
 
-### v0.4 - 2026-10-07 (DRAFT - PROPOSED UPDATE)
+### v0.4 - 2026-10-08 (DRAFT - POST-REVIEW PACKAGE; TECHNICAL CONTENT UNCHANGED)
 
 - Drafted by ChatGPT for Claude cold review; v0.3 remains the current ratified-constraints baseline
   until Dave ratifies this revision.
