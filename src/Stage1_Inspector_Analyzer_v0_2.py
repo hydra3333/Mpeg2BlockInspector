@@ -76,8 +76,17 @@ def validate_mb(mb, rec, idx, errors):
     if mb['transform'] == 2:
         if not mb['dct_read'] or rec['picture_structure'] != 3 or rec['frame_pred_frame_dct'] != 0 or mb['coding'] == 1:
             errors.append(f'{prefix}: FIELD without valid dct_type context')
+    if mb['coding'] == 2:
+        if mb['transform'] == 0:
+            errors.append(f'{prefix}: INTRA has NONE transform')
+        if mb['cbp'] != 63:
+            errors.append(f'{prefix}: INTRA CBP {mb["cbp"]} != 63')
     if mb['coding'] == 3 and mb['cbp'] == 0 and mb['transform'] != 0:
         errors.append(f'{prefix}: INTER CBP=0 is not NONE')
+    if mb['coding'] == 3 and mb['cbp'] > 0 and mb['transform'] == 0:
+        errors.append(f'{prefix}: INTER CBP>0 has NONE transform')
+    if rec['picture_structure'] == 3 and rec['frame_pred_frame_dct'] == 0 and mb['transform'] != 0 and not mb['dct_read']:
+        errors.append(f'{prefix}: transform present without dct_read in frame picture with frame_pred_frame_dct=0')
 
 def load_index(path):
     errors=[]
@@ -193,6 +202,10 @@ def summary_data(index):
         'q_updates':sum(mb['q_update'] for mb in allmb),
         'dct_read_count':sum(mb['dct_read'] for mb in allmb),
         'inter_cbp0_dctread':sum(1 for mb in allmb if mb['coding']==3 and mb['cbp']==0 and mb['dct_read']),
+        'progressive_frame_dist':collections.Counter(r['progressive_frame'] for r in recs),
+        'q_scale_type_dist':collections.Counter(r['q_scale_type'] for r in recs),
+        'top_field_first_dist':collections.Counter(r['top_field_first'] for r in recs),
+        'repeat_first_field_dist':collections.Counter(r['repeat_first_field'] for r in recs),
     }
 
 def print_summary(index, expected=None):
@@ -206,6 +219,10 @@ def print_summary(index, expected=None):
     print('dimensions:', ', '.join(f'{k[0]}x{k[1]} MB={k[2]}x{k[3]} frames={v}' for k,v in dims.items()))
     print('picture types:', counter_text(s['picture_types'],s['record_count']))
     print('picture structures:', counter_text(s['structures'],s['record_count']))
+    print('progressive_frame:', counter_text(s['progressive_frame_dist'],s['record_count']))
+    print('q_scale_type:', counter_text(s['q_scale_type_dist'],s['record_count']))
+    print('top_field_first:', counter_text(s['top_field_first_dist'],s['record_count']))
+    print('repeat_first_field:', counter_text(s['repeat_first_field_dist'],s['record_count']))
     print('transform states:', counter_text(s['transforms'],total_mb))
     print('coding states:', counter_text(s['coding'],total_mb))
     print(f"mixed FRAME/FIELD frames={s['mixed_frame_field_frames']} ({pct(s['mixed_frame_field_frames'],s['record_count']):.2f}%)")
