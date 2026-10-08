@@ -39,3 +39,6 @@ ipch/
 
 # CMake per-user presets (keep CMakePresets.json; ignore only the user file)
 CMakeUserPresets.json
+
+**/__pycache__/
+*.pyc
