@@ -133,28 +133,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="display.c" />
-    <ClCompile Include="getbits.c" />
-    <ClCompile Include="getblk.c" />
-    <ClCompile Include="gethdr.c" />
-    <ClCompile Include="getpic.c" />
-    <ClCompile Include="getvlc.c" />
-    <ClCompile Include="idct.c" />
-    <ClCompile Include="idctref.c" />
-    <ClCompile Include="motion.c" />
-    <ClCompile Include="mpeg2dec.c" />
-    <ClCompile Include="recon.c" />
-    <ClCompile Include="spatscal.c" />
-    <ClCompile Include="store.c" />
-    <ClCompile Include="subspic.c" />
-    <ClCompile Include="systems.c" />
-    <ClCompile Include="verify.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\display.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getbits.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getblk.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\gethdr.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getpic.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getvlc.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\idct.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\idctref.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\motion.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\mpeg2dec.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\recon.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\spatscal.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\store.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\subspic.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\systems.c" />
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\verify.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h" />
-    <ClInclude Include="getvlc.h" />
-    <ClInclude Include="global.h" />
-    <ClInclude Include="mpeg2dec.h" />
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\config.h" />
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\getvlc.h" />
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\global.h" />
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\mpeg2dec.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

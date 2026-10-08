@@ -15,66 +15,66 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="display.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\display.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="getbits.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getbits.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="getblk.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getblk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gethdr.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\gethdr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="getpic.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getpic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="getvlc.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\getvlc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="idct.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\idct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="idctref.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\idctref.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="motion.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\motion.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mpeg2dec.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\mpeg2dec.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="recon.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\recon.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="spatscal.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\spatscal.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="store.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\store.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="subspic.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\subspic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="systems.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\systems.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="verify.c">
+    <ClCompile Include="..\..\src\Mpeg2BlockInspector\verify.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h">
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="getvlc.h">
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\getvlc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="global.h">
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mpeg2dec.h">
+    <ClInclude Include="..\..\src\Mpeg2BlockInspector\mpeg2dec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
