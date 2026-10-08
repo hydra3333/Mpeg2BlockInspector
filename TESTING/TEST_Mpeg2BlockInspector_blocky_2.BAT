@@ -3,17 +3,17 @@
 
 REM Perform preparation
 set "path_ffmpeg=C:\SOFTWARE\ffmpeg\ffmpeg.exe"
-set "path_Mpeg2BlockInspector=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\x64\Release\Mpeg2BlockInspector.exe"
-set "path_Stage1_Inspector_Analyzer=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\src\Stage1_Inspector_Analyzer_v0_2.py"
+set "path_Mpeg2BlockInspector=E:\SOFTWARE-Win11\MULTIMEDIA\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock\vs\VapourSynth-mpeg2Deblock\x64\Release\Mpeg2BlockInspector.exe"
+set "path_Stage1_Inspector_Analyzer=E:\SOFTWARE-Win11\MULTIMEDIA\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock\tools\Stage1_Inspector_Analyzer_v0_2.py"
 REM
 set "path_vspipe=D:\TEST\Vapoursynth_x64_R81\lib\site-packages\vapoursynth\vspipe.exe"
 REM
 REM set "blocky="
 set "blocky=_blocky"
 REM
-set "path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\TESTING\show_source_clip_info%blocky%_2.vpy"
+set "path_vpy=E:\SOFTWARE-Win11\MULTIMEDIA\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock\TESTING\show_source_clip_info%blocky%_2.vpy"
 REM
-set "mpg_path=E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples"
+set "mpg_path=E:\SOFTWARE-Win11\MULTIMEDIA\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock\VHSC_samples"
 set "mpg_filepart=TEST_4A_A003%blocky%"
 REM
 set "mpg_part=%mpg_path%\%mpg_filepart%"

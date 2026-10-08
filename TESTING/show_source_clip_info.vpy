@@ -11,7 +11,7 @@ core = vs.core
 # "%path_vspipe%" --info "%path_vpy%" 2>>"%mpg_log%" 1>&2
 # "%path_vspipe%" --container y4m "%path_vpy%" NUL 2>>"%mpg_log%" 1>&2
 #
-source_filename = r"E:\SOFTWARE-Win11\MULTIMEDIA\Mpeg2BlockInspector\Mpeg2BlockInspector\VHSC_samples\TEST_2A_A001.mpg"
+source_filename = r"E:\SOFTWARE-Win11\MULTIMEDIA\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock\VHSC_samples\TEST_2A_A001.mpg"
 #
 clip = core.bs.VideoSource(source_filename)
 SOURCE_FRAME_COUNT = clip.num_frames
