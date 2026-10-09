@@ -1,5 +1,55 @@
-# Mpeg2BlockInspector
-Accept an mpeg2 video stream piped from ffmpeg and extract macroblock information
+# VapourSynth-mpeg2Deblock
+
+Tools for finding and, in time, reducing MPEG-2 blocking in video, using information that MPEG-2 decoders normally throw away.
+
+## Licence and notices - please read first
+
+- Original material developed for this project is licensed under the **GNU Affero General Public License, version 3 or any later version**. The licence text is in [`LICENSE`](LICENSE).
+- [`NOTICE.md`](NOTICE.md) sets out what that licence does and does not cover:
+  - **MPEG reference-decoder-derived source** (the `Mpeg2BlockInspector` sources) keeps its original copyright, attribution and licence notices. Those notices are not replaced by this project's licence.
+  - **Test recordings** under `VHSC_samples/` are **not** covered by the AGPL. They are included only so the project can be tested. Copying, redistributing or using them for any other purpose is not permitted; see `NOTICE.md` for the exact terms.
+  - **Third-party material** remains under its own copyright, licence and notice terms.
+
+## What is in this repository
+
+| Item | What it is |
+|---|---|
+| `Mpeg2BlockInspector.exe` | A Windows x64 command-line tool derived from the MSSG MPEG-2 reference decoder. It reads an MPEG-2 video stream and writes a binary per-macroblock index of how each part of each picture was coded. |
+| VapourSynth plugin | A VapourSynth (API4) plugin that will use that index for deblocking. **In development; not yet available.** Its name and details are not final. |
+| `tools/Stage1_Inspector_Analyzer_v0_2.py` | A Python script that reads and checks an index produced by the inspector. |
+| `TESTING/` | Windows batch scripts used to run the inspector against the test recordings. |
+| `VHSC_samples/` | Test recordings and their reference indexes. Restricted use; see `NOTICE.md`. |
+| `vs/VapourSynth-mpeg2Deblock/` | The Visual Studio 2026 solution (`VapourSynth-mpeg2Deblock.slnx`) and project files. |
+
+## System requirements
+
+- **Windows, 64-bit (x64).**
+- **A CPU with AVX2.** This means Intel processors from the Haswell generation (2013) onwards, or AMD processors from Excavator (2015) or Zen (2017) onwards. Some low-cost Intel Pentium, Celeron and Atom-class processors made after 2013 do not have AVX2. On a processor without AVX2 the programs stop with an "illegal instruction" error (code `0xC000001D`). That is expected, not a fault.
+- **No Visual C++ Redistributable is needed.** Release builds include the Microsoft C/C++ runtime inside the program file.
+
+## Building
+
+- Visual Studio 2026 with the "Desktop development with C++" workload and the **MSVC x64 Spectre-mitigated libraries** component. The builds enable Spectre mitigation and stop if those libraries are missing.
+- Open `vs\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock.slnx` and build **Release | x64** (or Debug | x64).
+- The build settings live in the project files. Do not override them on the command line.
+
+## Using Mpeg2BlockInspector
+
+Let `ffmpeg` extract the MPEG-2 video stream and pipe it straight into the inspector. No temporary file is needed:
+
+```cmd
+ffmpeg -v error -i "capture.mpg" -c:v copy -an -f mpeg2video - | Mpeg2BlockInspector.exe -b - -m "capture.idx"
+```
+
+- `-b -` reads the MPEG-2 stream from standard input (the pipe).
+- `-m file` writes the macroblock index to `file`. With `-m`, no decoded pictures are written.
+- The index appears only when the run succeeds. It is first written under a temporary name and renamed at the end, so a failed run never leaves a partial index behind.
+- Exit code `0` means success, and `1` means failure.
+- The index is a binary file. Use `tools/Stage1_Inspector_Analyzer_v0_2.py` to read and check it.
+
+## Background: original design notes
+
+The notes below are the original research sketch, written before the inspector was built. They explain the idea behind the project. Their code fragments, the text log format they describe (`FRAME` / `MB` lines) and some of the file names they mention (for example `macroblk.c`) **do not** describe the inspector in this repository, which writes the binary index described above.
 
 ### 1. Assessment of MPEG2 blocking
 
@@ -24,7 +74,7 @@ You can then parse that log in Python with zero performance penalty.
 
 ### 3. What the Data Looks Like in the Bitstream
 
-For a 720×480 DVD frame ($45 \times 30 = 1,350$ macroblocks per frame), the reference decoder reads these key syntax elements:
+For a 720x480 DVD frame ($45 \times 30 = 1,350$ macroblocks per frame), the reference decoder reads these key syntax elements:
 
 1. **Frame-Level (`gethdr.c`):**
    * `picture_structure`: `1` (Top Field), `2` (Bottom Field), `3` (Frame Picture).
@@ -35,8 +85,8 @@ For a 720×480 DVD frame ($45 \times 30 = 1,350$ macroblocks per frame), the ref
    * `macroblock_type`: Indicates Intra, Forward Pred, Backward Pred, etc.
    * `macroblock_motion_forward / backward`: Frame-based vs. Field-based motion vectors.
    * `dct_type`: **This is the critical bit.** 
-     * `0`: **Frame DCT** (The 8x8 luminance blocks take interleaved lines from both fields — good for static areas).
-     * `1`: **Field DCT** (The 8x8 luminance blocks take lines from only Field 1 or Field 2 — used when there is high interlaced motion).
+     * `0`: **Frame DCT** (The 8x8 luminance blocks take interleaved lines from both fields -- good for static areas).
+     * `1`: **Field DCT** (The 8x8 luminance blocks take lines from only Field 1 or Field 2 -- used when there is high interlaced motion).
    * `quantizer_scale_code`: The exact quantization factor applied to this macroblock (indicates how heavily compressed/blocked this specific MB is).
 
 ---
@@ -214,8 +264,3 @@ stream_and_inspect_mpg("my_vhs_tape.mpg")
 #### 5. With this architecture:
 1. **Zero disk space used:** No intermediate `.m2v` files written to disk.
 2. **Real-time streaming:** Python gets the frame structure and `Field vs. Frame DCT` macroblock classification directly as FFmpeg demuxes the capture.
-
-
-
-
-
