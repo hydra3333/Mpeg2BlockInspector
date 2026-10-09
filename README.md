@@ -29,7 +29,7 @@ Tools for finding and, in time, reducing MPEG-2 blocking in video, using informa
 
 ## Building
 
-- Visual Studio 2026 with the "Desktop development with C++" workload and the **MSVC x64 Spectre-mitigated libraries** component. The builds enable Spectre mitigation and stop if those libraries are missing.
+- Visual Studio 2026 with the "Desktop development with C++" workload. The project uses conventional hardening such as `/GS`, Control Flow Guard and CET compatibility. Spectre mitigation is deliberately not required for this project.
 - Open `vs\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock.slnx` and build **Release | x64** (or Debug | x64).
 - The build settings live in the project files. Do not override them on the command line.
 
