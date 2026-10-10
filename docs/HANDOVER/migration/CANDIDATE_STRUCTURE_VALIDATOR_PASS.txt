@@ -1,1 +1,0 @@
-PASS: candidate structure, T1 import position, T2 dual WPO pins, frozen membership and 138 pin applications verified.
