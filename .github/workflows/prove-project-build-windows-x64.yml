@@ -1,0 +1,303 @@
+# CANDIDATE v0.2 - CLAUDE REVIEW ONLY; not run on GitHub yet.
+# Stage G6 proving workflow. Manual invocation ONLY, no push or release trigger.
+# Place at .github/workflows/prove-project-build-windows-x64.yml.
+# This project uses main as its sole ongoing development branch. Commit the
+# reviewed manual-only proof workflow to main, then dispatch it on main.
+# No test/feature branch, automatic push trigger, or release trigger is used.
+#
+# G7 REFERENCE ONLY, NOT EXECUTED. NEVER UNCOMMENT AS COMMANDS: doing so creates
+# a competing compiler/linker flag map. Update reference and expected CSV together.
+# Snapshot 2026-10-10: VS2026 Community, MSBuild 18.10.1, v145,
+# MSVC tools folder 14.51.36231, Windows SDK 10.0.28000.0, HostX64\x64.
+# Debug CL  : /c /Zi /JMC /nologo /W3 /WX- /diagnostics:column /sdl- /Od /Ob2 /Oi /Ot /D _CRT_SECURE_NO_WARNINGS /GF- /Gm- /EHsc /RTC1 /MDd /GS /guard:cf /Gy- /arch:AVX2 /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo<PATH> /Fd<PATH> /external:W3 /Gd /TC /FC /favor:blend
+# Release CL: /c /Zi /nologo /W3 /WX- /diagnostics:column /sdl- /O2 /Ob2 /Oi /Ot /GL /D _CRT_SECURE_NO_WARNINGS /GF /Gm- /EHsc /MT /GS /guard:cf /Gy /arch:AVX2 /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo<PATH> /Fd<PATH> /external:W3 /Gd /TC /FC /favor:blend
+# Debug LINK: /OUT:<PATH> /INCREMENTAL:NO /NOLOGO LIBS=kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib /MANIFEST /MANIFESTUAC:level='asInvoker' uiAccess='false' /manifest:embed /MANIFESTINPUT:<PATH> /DEBUG:FULL /PDB:<PATH> /SUBSYSTEM:CONSOLE /LARGEADDRESSAWARE /TSAWARE /OPT:NOREF /OPT:NOICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:<PATH> /MACHINE:X64 /CETCOMPAT /guard:cf /HIGHENTROPYVA
+# Release LINK: /OUT:<PATH> /INCREMENTAL:NO /NOLOGO LIBS=kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib /MANIFEST /MANIFESTUAC:level='asInvoker' uiAccess='false' /manifest:embed /MANIFESTINPUT:<PATH> /DEBUG:FULL /PDB:<PATH> /SUBSYSTEM:CONSOLE /LARGEADDRESSAWARE /TSAWARE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:<PATH> /MACHINE:X64 /CETCOMPAT /guard:cf /HIGHENTROPYVA /PDBALTPATH:%_PDB%
+
+name: Prove project-owned MSBuild settings (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out the manually dispatched main commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Discover one released Visual Studio installation; check isolation
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REF -ne 'refs/heads/main') { throw 'Proof workflow runs on main only' }
+          if (-not [Environment]::Is64BitProcess) { throw 'PowerShell process is not x64' }
+          $root = (Resolve-Path $env:GITHUB_WORKSPACE).Path
+          $evidence = Join-Path $env:RUNNER_TEMP 'migration-proof-evidence'
+          New-Item -ItemType Directory -Force $evidence | Out-Null
+          'CL','_CL_','LINK','_LINK_','Platform','PreferredToolArchitecture','VCToolsVersion' | ForEach-Object {
+            $v = [Environment]::GetEnvironmentVariable($_)
+            if ($null -ne $v) { throw "External build override $_ is set" }
+          }
+          if (Get-ChildItem Env:VSCMD_ARG_* -ErrorAction SilentlyContinue) {
+            throw 'VsDevCmd environment is active: do not build inside it'
+          }
+          $forbidden = 'Directory.Build.props','Directory.Build.targets','Directory.Build.rsp','MSBuild.rsp'
+          $here = Get-Item $root
+          while ($here) {
+            foreach ($name in $forbidden) {
+              if (Test-Path -LiteralPath (Join-Path $here.FullName $name) -PathType Leaf) {
+                throw "Forbidden auto-input: $($here.FullName)\$name"
+              }
+            }
+            if ($here.FullName -eq $root) {
+              $unreviewed = Get-ChildItem -LiteralPath $root -File -Recurse -Force |
+                Where-Object { $forbidden -contains $_.Name }
+              if ($unreviewed) { throw "Unreviewed in-tree auto-inputs: $($unreviewed.FullName -join ', ')" }
+            }
+            $here = $here.Parent
+          }
+          $installer = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+          if (-not (Test-Path -LiteralPath $installer)) { throw "Missing vswhere: $installer" }
+          $json = & $installer -latest -products '*' -requires Microsoft.Component.MSBuild Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json -utf8
+          if ($LASTEXITCODE -ne 0) { throw "vswhere failed: $LASTEXITCODE" }
+          $install = @($json | ConvertFrom-Json)
+          if ($install.Count -ne 1) { throw "Expected one qualifying released Visual Studio, got $($install.Count)" }
+          $vs = $install[0]
+          if ($vs.isPrerelease) { throw "Pre-release Visual Studio selected: $($vs.installationPath)" }
+          $msbuild = Join-Path $vs.installationPath 'MSBuild\Current\Bin\amd64\MSBuild.exe'
+          if (-not (Test-Path -LiteralPath $msbuild)) { throw "Missing x64 MSBuild: $msbuild" }
+          "Visual Studio: $($vs.displayName) / $($vs.installationVersion) / $($vs.installationPath)"
+          "MSBuild: $msbuild"
+          & $msbuild -version -nologo -noAutoResponse
+          if ($LASTEXITCODE -ne 0) { throw 'MSBuild version probe failed' }
+          # Empirical M2 runtime check, required to PASS; not merely a PE-header assumption.
+          $probe = Join-Path $env:RUNNER_TEMP 'msbuild-bitness.proj'
+          @'
+          <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+            <Target Name="Probe"><Message Importance="high" Text="MSBUILD_IS64=$([System.Environment]::Is64BitProcess)" /></Target>
+          </Project>
+          '@ | Set-Content -LiteralPath $probe -Encoding ascii
+          $result = & $msbuild $probe -t:Probe -nologo -noAutoResponse 2>&1
+          $result | Out-File -LiteralPath (Join-Path $evidence 'msbuild-bitness.txt') -Encoding utf8
+          if ($LASTEXITCODE -ne 0 -or -not (($result -join "`n") -match 'MSBUILD_IS64=True')) {
+            throw 'Failed to independently verify running MSBuild is 64 bit'
+          }
+          $json | Out-File -LiteralPath (Join-Path $evidence 'vswhere.json') -Encoding utf8
+          "VS_INSTALL=$($vs.installationPath)" >> $env:GITHUB_ENV
+          "MSBUILD_EXE=$msbuild" >> $env:GITHUB_ENV
+          "EVIDENCE_DIR=$evidence" >> $env:GITHUB_ENV
+
+      - name: Rebuild accepted inspector through the solution (no compiler/linker flag map)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $solution = Join-Path $env:GITHUB_WORKSPACE 'vs\VapourSynth-mpeg2Deblock\VapourSynth-mpeg2Deblock.slnx'
+          if (-not (Test-Path -LiteralPath $solution)) { throw "Missing solution: $solution" }
+          foreach ($cfg in @('Debug','Release')) {
+            $log = Join-Path $env:EVIDENCE_DIR "MSBuild_$($cfg)_x64_diagnostic.log"
+            & $env:MSBUILD_EXE $solution -t:Rebuild -nologo -noAutoResponse "-p:Configuration=$cfg" -p:Platform=x64 "-flp:LogFile=$log;Verbosity=detailed" -v:minimal
+            if ($LASTEXITCODE -ne 0) { throw "MSBuild failed for $cfg : $LASTEXITCODE" }
+            # G7: print the real compiler/linker invocations, never reconstruct them.
+            Select-String -LiteralPath $log -Pattern '\\bin\\HostX64\\x64\\(?:CL|link)\.exe ' |
+              ForEach-Object { Write-Host $_.Line }
+          }
+
+      - name: Compare native tlog switches and inspect actual HostX64 invocations
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $script = Join-Path $env:RUNNER_TEMP 'check-a3-tlogs.py'
+          # This Python script is GENERATED FROM THIS WORKFLOW ONLY; not a second
+          # permanent harness. Windows-rules parsing via CommandLineToArgvW (N1).
+          @'
+          import collections, csv, ctypes, os, pathlib, re, struct, sys
+          if os.name != 'nt' or struct.calcsize('P') != 8:
+              raise SystemExit('FAIL: requires 64-bit Windows Python (N1)')
+          from ctypes import wintypes
+          shell32 = ctypes.WinDLL('shell32', use_last_error=True)
+          kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+          shell32.CommandLineToArgvW.argtypes = (wintypes.LPCWSTR, ctypes.POINTER(ctypes.c_int))
+          shell32.CommandLineToArgvW.restype = ctypes.POINTER(wintypes.LPWSTR)
+          kernel32.LocalFree.argtypes = (ctypes.c_void_p,)
+          kernel32.LocalFree.restype = ctypes.c_void_p
+          def win_split(line):
+              n = ctypes.c_int()
+              p = shell32.CommandLineToArgvW(line, ctypes.byref(n))
+              if not p: raise OSError(ctypes.get_last_error(), 'CommandLineToArgvW')
+              try: return [p[i] for i in range(n.value)]
+              finally: kernel32.LocalFree(ctypes.cast(p, ctypes.c_void_p))
+          root = pathlib.Path(os.environ['GITHUB_WORKSPACE'])
+          ev = pathlib.Path(os.environ['EVIDENCE_DIR'])
+          expected = root / '.github/workflows/expected_a3_v0_10_switches.csv'
+          if not expected.is_file(): raise SystemExit('FAIL: expected-switch CSV missing')
+          def load_csv(path):
+              out = collections.defaultdict(list)
+              with path.open(encoding='utf-8-sig', newline='') as f:
+                  for row in csv.DictReader(f):
+                      out[(row['configuration'],row['tool'])].append(row['token'])
+              return out
+          baseline = load_csv(expected)
+          expected_keys = {(c,t) for c in ['Debug|x64','Release|x64'] for t in ['CL','LINK']}
+          if set(baseline) != expected_keys or sum(map(len, baseline.values())) != 113:
+              raise SystemExit('FAIL: incorrect expected-switch file identity/count')
+          output = collections.defaultdict(list)
+          def normalize_arg(arg):
+              up = arg.upper()
+              if up.startswith(('/FO','/FD')): return arg[:3] + '<PATH>'
+              for prefix in ('/OUT:','/PDB:','/IMPLIB:','/MANIFESTINPUT:'):
+                  if up.startswith(prefix): return arg[:len(prefix)] + '<PATH>'
+              return arg
+          base = root / 'vs/VapourSynth-mpeg2Deblock'
+          for cfg in ('Debug','Release'):
+              for tool, filename in (('CL','CL.command.1.tlog'),('LINK','link.command.1.tlog')):
+                  paths = [p for p in base.rglob(filename) if cfg.lower() in [part.lower() for part in p.parts]]
+                  if len(paths) != 1: raise SystemExit(f'FAIL: {cfg}/{tool} tlog count {len(paths)}: {paths}')
+                  p = paths[0]
+                  (ev / f'{cfg}_{filename}').write_bytes(p.read_bytes())
+                  lines = p.read_text(encoding='utf-16').splitlines()
+                  commands = [l for l in lines if l and not l.startswith('^')]
+                  if not commands: raise SystemExit(f'FAIL: no {cfg}/{tool} command records')
+                  if tool == 'LINK' and len(commands) < 1: raise SystemExit('FAIL: no LINK command')
+                  parsed = []
+                  for line in (commands if tool == 'CL' else commands[:1]):
+                      argv = win_split(line)
+                      got = []; libs = []; objs = []
+                      i = 0
+                      while i < len(argv):
+                          a = argv[i]
+                          if tool == 'CL' and a.upper() == '/D':
+                              if i + 1 >= len(argv): raise SystemExit('FAIL: malformed /D')
+                              got.append(a + ' ' + argv[i+1]); i += 2; continue
+                          if a.startswith('/'):
+                              got.append(normalize_arg(a))
+                          elif tool == 'LINK' and a.upper().endswith('.LIB'):
+                              libs.append(a)
+                          elif (tool == 'LINK' and a.upper().endswith('.OBJ')) or (tool == 'CL' and a.upper().endswith(('.C','.CPP','.CC'))):
+                              objs.append(a)
+                          else:
+                              raise SystemExit(f'FAIL: unclassified {cfg}/{tool} argument: {a!r}')
+                          i += 1
+                      if not objs: raise SystemExit(f'FAIL: no {cfg}/{tool} sources/objects')
+                      if tool == 'LINK':
+                          if not libs: raise SystemExit('FAIL: LINK library list empty')
+                          pos = next((i for i,v in enumerate(got) if v.lower() == '/nologo'), None)
+                          if pos is None: raise SystemExit('FAIL: /NOLOGO missing')
+                          got.insert(pos + 1, 'LIBS=' + ';'.join(libs).lower())
+                      parsed.append(got)
+                  first = parsed[0]
+                  if tool == 'CL' and any(a != first for a in parsed[1:]):
+                      raise SystemExit(f'FAIL: non-identical CL records for {cfg}')
+                  output[(cfg+'|x64',tool)] = first
+          failures = []
+          with (ev/'actual_switches.csv').open('w',encoding='utf-8',newline='') as f:
+              w = csv.writer(f); w.writerow(('configuration','tool','ordinal','token'))
+              for key in sorted(output):
+                  cfg,tool = key
+                  for i,t in enumerate(output[key],1): w.writerow((cfg,tool,i,t))
+          for key in sorted(expected_keys):
+              _,tool = key
+              canon = (lambda t:t.lower()) if tool == 'LINK' else (lambda t:t)
+              want = collections.Counter(map(canon, baseline[key]))
+              got = collections.Counter(map(canon, output[key]))
+              for kind,diff in (('MISSING',want-got),('EXTRA',got-want)):
+                  for token,count in sorted(diff.items()): failures.append(f'{key} {kind} {token} (x{count})')
+              if not (want-got) and not (got-want): print(f'PASS: {key}: {sum(got.values())} reviewed tokens')
+          for cfg in ('Debug','Release'):
+              log = (ev/f'MSBuild_{cfg}_x64_diagnostic.log').read_text(encoding='utf-8-sig',errors='replace')
+              # N2: require executable INVOCATION LINES, not unrelated property paths.
+              matches = re.findall(r'(?im)^\s*(?:\d+>\s*)?([A-Z]:\\[^\r\n]*?\\bin\\Host(?:X64|X86)\\(?:x64|x86)\\(?:CL|link)\.exe)\s+(?:/|\S)', log)
+              cl = [x for x in matches if x.lower().endswith('\\cl.exe')]
+              ln = [x for x in matches if x.lower().endswith('\\link.exe')]
+              if not cl or not ln: failures.append(f'{cfg}: CL/link actual invocation path missing')
+              for x in matches:
+                  if not re.search(r'(?i)\\bin\\HostX64\\x64\\(?:CL|link)\.exe$',x):
+                      failures.append(f'{cfg}: non-HostX64 invocation: {x}')
+                  if not x.lower().startswith(os.environ['VS_INSTALL'].lower().rstrip('\\')+'\\'):
+                      failures.append(f'{cfg}: tool invoked outside selected VS: {x}')
+              print(f'{cfg}: CL invocation(s)={len(cl)} LINK invocation(s)={len(ln)}')
+          for x in failures: print('FAIL:',x)
+          if failures: raise SystemExit(1)
+          print('PASS: all switch, HostX64 and invocation checks')
+          '@ | Set-Content -LiteralPath $script -Encoding utf8
+          & python $script
+          if ($LASTEXITCODE -ne 0) { throw "Strict tlog/HostX64 check failed: $LASTEXITCODE" }
+
+      - name: Inspect Release PE hardening and dependencies after the build
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $root = Join-Path $env:GITHUB_WORKSPACE 'vs\VapourSynth-mpeg2Deblock'
+          $log = Get-Content -LiteralPath (Join-Path $env:EVIDENCE_DIR 'MSBuild_Release_x64_diagnostic.log')
+          $invocation = $log | Where-Object { $_ -match '^\s*[A-Za-z]:\\.*\\bin\\HostX64\\x64\\link\.exe\s+' } | Select-Object -First 1
+          if (-not $invocation) { throw 'Cannot identify actual HostX64 linker invocation' }
+          $toolDir = [regex]::Match($invocation, '(?i)([A-Z]:\\.*?\\bin\\HostX64\\x64)\\link\.exe\s+').Groups[1].Value
+          $dumpbin = Join-Path $toolDir 'dumpbin.exe'
+          if (-not (Test-Path -LiteralPath $dumpbin)) { throw "Missing matching x64 dumpbin: $dumpbin" }
+          $exe = Join-Path $root 'x64\Release\Mpeg2BlockInspector.exe'
+          if (-not (Test-Path -LiteralPath $exe)) { throw "Missing Release exe: $exe" }
+          "Actual tools folder: $toolDir" | Tee-Object -FilePath (Join-Path $env:EVIDENCE_DIR 'tool_versions.txt')
+          foreach ($name in 'CL.exe','link.exe','dumpbin.exe') {
+            $path = Join-Path $toolDir $name
+            if (-not (Test-Path -LiteralPath $path)) { throw "Missing tool: $path" }
+            "$name file version: $((Get-Item -LiteralPath $path).VersionInfo.FileVersion)" |
+              Tee-Object -FilePath (Join-Path $env:EVIDENCE_DIR 'tool_versions.txt') -Append
+          }
+          foreach ($name in 'headers','loadconfig','imports','dependents') {
+            $out = & $dumpbin "/$name" $exe 2>&1
+            $out | Out-File -LiteralPath (Join-Path $env:EVIDENCE_DIR "Release_$name.txt") -Encoding utf8
+            if ($LASTEXITCODE -ne 0) { throw "dumpbin /$name failed" }
+          }
+          $header = Get-Content (Join-Path $env:EVIDENCE_DIR 'Release_headers.txt') -Raw
+          $config = Get-Content (Join-Path $env:EVIDENCE_DIR 'Release_loadconfig.txt') -Raw
+          $imports = Get-Content (Join-Path $env:EVIDENCE_DIR 'Release_imports.txt') -Raw
+          $deps = Get-Content (Join-Path $env:EVIDENCE_DIR 'Release_dependents.txt') -Raw
+          foreach ($pattern in @('8664 machine','20B magic','Application can handle large','High Entropy Virtual Addresses','Dynamic base','NX compatible','Control Flow Guard','Terminal Server Aware','CET compatible','Mpeg2BlockInspector\.pdb')) {
+            if ($header -notmatch $pattern) { throw "Missing PE header evidence: $pattern" }
+          }
+          $cookie = [regex]::Match($config, '(?m)^\s*([0-9A-Fa-f]+) Security Cookie\s*$')
+          if (-not $cookie.Success -or [Convert]::ToUInt64($cookie.Groups[1].Value,16) -eq 0) { throw 'Security cookie absent or zero' }
+          $cfgCount = [regex]::Match($config, '(?m)^\s*([0-9A-Fa-f]+) Guard CF function count\s*$')
+          if (-not $cfgCount.Success -or [Convert]::ToUInt64($cfgCount.Groups[1].Value,16) -eq 0) { throw 'CFG function count missing/zero' }
+          if ($config -notmatch 'CF instrumented' -or $config -notmatch 'FID table present') { throw 'CFG flags absent' }
+          if ($header -notmatch '(?m)Format: RSDS, \{[0-9A-F-]+\}, 1, Mpeg2BlockInspector\.pdb\s*$') {
+            throw 'PDB CodeView record not basename-only'
+          }
+          foreach ($pair in @(@('imports',$imports),@('dependents',$deps))) {
+            $dlls = [regex]::Matches($pair[1], '(?im)^\s+([A-Za-z0-9_.-]+\.dll)\s*$') | ForEach-Object { $_.Groups[1].Value.ToUpperInvariant() } | Select-Object -Unique
+            if (@($dlls).Count -ne 1 -or @($dlls)[0] -ne 'KERNEL32.DLL') { throw "Unexpected $($pair[0]) DLLs: $dlls" }
+          }
+          # Independent, read-only extraction of the actual embedded EXE manifest.
+          # SDK executable choice is recorded; do not equate highest SDK folder
+          # with proof of newest mt.exe *file* version.
+          $binRoot = Join-Path ${env:ProgramFiles(x86)} 'Windows Kits\10\bin'
+          $x64Mt = @(Get-ChildItem -Path (Join-Path $binRoot '*\x64\mt.exe') -File -ErrorAction Stop |
+            Sort-Object { [version]$_.Directory.Parent.Name } -Descending)
+          if ($x64Mt.Count -eq 0) { throw 'No x64 SDK mt.exe installed' }
+          $mtExe = $x64Mt[0].FullName
+          "Manifest Tool: $mtExe ; FileVersion=$($x64Mt[0].VersionInfo.FileVersion)" |
+            Tee-Object -FilePath (Join-Path $env:EVIDENCE_DIR 'tool_versions.txt') -Append
+          $manifest = Join-Path $env:EVIDENCE_DIR 'Release_embedded_manifest.xml'
+          & $mtExe -nologo "-inputresource:$exe;#1" "-out:$manifest"
+          if ($LASTEXITCODE -ne 0) { throw 'mt.exe manifest extraction failed' }
+          $xml = Get-Content -LiteralPath $manifest -Raw
+          if ($xml -notmatch 'requestedExecutionLevel\s+level="asInvoker"\s+uiAccess="false"' -or
+              $xml -notmatch '<heapType>SegmentHeap</heapType>') {
+            throw 'Release embedded manifest differs from accepted asInvoker/SegmentHeap requirements'
+          }
+          'PASS: Release headers, loadconfig, imports, dependencies, manifest' |
+            Tee-Object -FilePath (Join-Path $env:EVIDENCE_DIR 'pe_validation_result.txt')
+          # G8: no VsDevCmd was used for the build. dumpbin used explicitly from
+          # the SAME actual HostX64 tool folder; no environment injection.
+
+      - name: Upload diagnostic evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-a3-project-owned-msbuild-proof
+          path: ${{ runner.temp }}/migration-proof-evidence/
+          if-no-files-found: warn
