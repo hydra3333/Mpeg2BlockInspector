@@ -1,0 +1,142 @@
+key,source,configuration,item,checkpoint_value,a3_value,coverage_kind,xml_or_exception,evidence_source,notes
+CLD_c,checkpoint CL,Debug|x64,/c,present,present,TOOL_SEMANTIC,MSBuild C/C++ compile action,checkpoint CL tlog,not a mutable project flag
+CLD_nologo,checkpoint CL,Debug|x64,/nologo,present,present,XML,ClCompile/SuppressStartupBanner=true,checkpoint CL tlog,
+CLD_W3,checkpoint CL,Debug|x64,/W3,present,present,XML,ClCompile/WarningLevel=Level3,checkpoint CL tlog,
+CLD_WX,checkpoint CL,Debug|x64,/WX-,present,present,XML,ClCompile/TreatWarningAsError=false,checkpoint CL tlog,
+CLD_diag,checkpoint CL,Debug|x64,/diagnostics:column,present,present,XML,ClCompile/DiagnosticsFormat=Column,checkpoint CL tlog,
+CLD_sdl,checkpoint CL,Debug|x64,/sdl-,present,present,XML,ClCompile/SDLCheck=false,checkpoint CL tlog,inspector frozen-source exception
+CLD_def,checkpoint CL,Debug|x64,/D _CRT_SECURE_NO_WARNINGS,present,present,XML,ClCompile/PreprocessorDefinitions includes _CRT_SECURE_NO_WARNINGS,checkpoint CL tlog,
+CLD_gm,checkpoint CL,Debug|x64,/Gm-,present,present,XML,ClCompile/MinimalRebuild=false,checkpoint CL tlog,
+CLD_eh,checkpoint CL,Debug|x64,/EHsc,present,present,XML,ClCompile/ExceptionHandling=Sync,checkpoint CL tlog,
+CLD_gs,checkpoint CL,Debug|x64,/GS,present,present,XML,ClCompile/BufferSecurityCheck=true,checkpoint CL tlog + M3,
+CLD_fp,checkpoint CL,Debug|x64,/fp:precise,present,present,XML,ClCompile/FloatingPointModel=Precise,checkpoint CL tlog,
+CLD_wchar,checkpoint CL,Debug|x64,/Zc:wchar_t,present,present,XML,ClCompile/TreatWChar_tAsBuiltInType=true,checkpoint CL tlog,
+CLD_forscope,checkpoint CL,Debug|x64,/Zc:forScope,present,present,XML,ClCompile/ForceConformanceInForLoopScope=true,checkpoint CL tlog,
+CLD_zcinline,checkpoint CL,Debug|x64,/Zc:inline,present,present,XML,ClCompile/RemoveUnreferencedCodeData=true,v180 cl.xml Switch=Zc:inline,final candidate must resolve from live/current project evidence
+CLD_fo,checkpoint CL,Debug|x64,/Fo...,present,present,XML,ClCompile/ObjectFileName=$(IntDir),checkpoint CL tlog,
+CLD_fd,checkpoint CL,Debug|x64,/Fd...,present,present,XML,ClCompile/ProgramDataBaseFileName=$(IntDir)vc$(PlatformToolsetVersion).pdb,VS2026 Property Pages exact displayed value + v180 cl.xml StringProperty,S13 resolved: Debug and Release both display $(IntDir)vc$(PlatformToolsetVersion).pdb
+CLD_extw3,checkpoint CL,Debug|x64,/external:W3,present,present,XML,ClCompile/ExternalWarningLevel=Level3,checkpoint CL tlog,
+CLD_gd,checkpoint CL,Debug|x64,/Gd,present,present,XML,ClCompile/CallingConvention=Cdecl,checkpoint CL tlog,
+CLD_tc,checkpoint CL,Debug|x64,/TC,present,present,XML,ClCompile/CompileAs=CompileAsC,checkpoint CL tlog,
+CLD_fc,checkpoint CL,Debug|x64,/FC,present,present,XML,ClCompile/UseFullPaths=true,checkpoint CL tlog,
+CLD_er,checkpoint CL,Debug|x64,/errorReport:queue,present,present,XML,ClCompile/ErrorReporting=Queue,checkpoint detailed MSBuild log; native .command.1.tlog omits error-reporting switch,R4 provenance correction: measured detailed log contains this switch; preserved native command tlog does not
+CLD_avx2,policy,Debug|x64,/arch:AVX2,absent,present,XML,ClCompile/EnableEnhancedInstructionSet=AdvancedVectorExtensions2,Dave AVX2 decision,
+CLD_favor,policy,Debug|x64,/favor:blend,absent,present,ADDITIONAL_OPTIONS,ClCompile/AdditionalOptions includes /favor:blend %(AdditionalOptions),O7=YES,no dedicated stable XML assumed; review exact candidate
+CLD_cfg,policy,Debug|x64,CFG compile,checkpoint not fully enabled,enabled,XML,ClCompile/ControlFlowGuard=Guard,S13 VS-written XML + v180 cl.xml,
+CLD_spectre,policy,Debug|x64,Spectre mitigation,default/absent,Disabled; /Qspectre absent,XML,Configuration/SpectreMitigation=false,v180 cl.xml DataSource placement + enum; /Qspectre absence gate,N1; placement must PASS strict R1 validator
+CLD_fpcontract,policy,Debug|x64,/fp:contract,absent,absent,DELIBERATE_EXCEPTION,No project option may add /fp:contract; gate proves absence,S14,absence guard
+CLR_c,checkpoint CL,Release|x64,/c,present,present,TOOL_SEMANTIC,MSBuild C/C++ compile action,checkpoint CL tlog,not a mutable project flag
+CLR_nologo,checkpoint CL,Release|x64,/nologo,present,present,XML,ClCompile/SuppressStartupBanner=true,checkpoint CL tlog,
+CLR_W3,checkpoint CL,Release|x64,/W3,present,present,XML,ClCompile/WarningLevel=Level3,checkpoint CL tlog,
+CLR_WX,checkpoint CL,Release|x64,/WX-,present,present,XML,ClCompile/TreatWarningAsError=false,checkpoint CL tlog,
+CLR_diag,checkpoint CL,Release|x64,/diagnostics:column,present,present,XML,ClCompile/DiagnosticsFormat=Column,checkpoint CL tlog,
+CLR_sdl,checkpoint CL,Release|x64,/sdl-,present,present,XML,ClCompile/SDLCheck=false,checkpoint CL tlog,inspector frozen-source exception
+CLR_def,checkpoint CL,Release|x64,/D _CRT_SECURE_NO_WARNINGS,present,present,XML,ClCompile/PreprocessorDefinitions includes _CRT_SECURE_NO_WARNINGS,checkpoint CL tlog,
+CLR_gm,checkpoint CL,Release|x64,/Gm-,present,present,XML,ClCompile/MinimalRebuild=false,checkpoint CL tlog,
+CLR_eh,checkpoint CL,Release|x64,/EHsc,present,present,XML,ClCompile/ExceptionHandling=Sync,checkpoint CL tlog,
+CLR_gs,checkpoint CL,Release|x64,/GS,present,present,XML,ClCompile/BufferSecurityCheck=true,checkpoint CL tlog + M3,
+CLR_fp,checkpoint CL,Release|x64,/fp:precise,present,present,XML,ClCompile/FloatingPointModel=Precise,checkpoint CL tlog,
+CLR_wchar,checkpoint CL,Release|x64,/Zc:wchar_t,present,present,XML,ClCompile/TreatWChar_tAsBuiltInType=true,checkpoint CL tlog,
+CLR_forscope,checkpoint CL,Release|x64,/Zc:forScope,present,present,XML,ClCompile/ForceConformanceInForLoopScope=true,checkpoint CL tlog,
+CLR_zcinline,checkpoint CL,Release|x64,/Zc:inline,present,present,XML,ClCompile/RemoveUnreferencedCodeData=true,v180 cl.xml Switch=Zc:inline,final candidate must resolve from live/current project evidence
+CLR_fo,checkpoint CL,Release|x64,/Fo...,present,present,XML,ClCompile/ObjectFileName=$(IntDir),checkpoint CL tlog,
+CLR_fd,checkpoint CL,Release|x64,/Fd...,present,present,XML,ClCompile/ProgramDataBaseFileName=$(IntDir)vc$(PlatformToolsetVersion).pdb,VS2026 Property Pages exact displayed value + v180 cl.xml StringProperty,S13 resolved: Debug and Release both display $(IntDir)vc$(PlatformToolsetVersion).pdb
+CLR_extw3,checkpoint CL,Release|x64,/external:W3,present,present,XML,ClCompile/ExternalWarningLevel=Level3,checkpoint CL tlog,
+CLR_gd,checkpoint CL,Release|x64,/Gd,present,present,XML,ClCompile/CallingConvention=Cdecl,checkpoint CL tlog,
+CLR_tc,checkpoint CL,Release|x64,/TC,present,present,XML,ClCompile/CompileAs=CompileAsC,checkpoint CL tlog,
+CLR_fc,checkpoint CL,Release|x64,/FC,present,present,XML,ClCompile/UseFullPaths=true,checkpoint CL tlog,
+CLR_er,checkpoint CL,Release|x64,/errorReport:queue,present,present,XML,ClCompile/ErrorReporting=Queue,checkpoint detailed MSBuild log; native .command.1.tlog omits error-reporting switch,R4 provenance correction: measured detailed log contains this switch; preserved native command tlog does not
+CLR_avx2,policy,Release|x64,/arch:AVX2,absent,present,XML,ClCompile/EnableEnhancedInstructionSet=AdvancedVectorExtensions2,Dave AVX2 decision,
+CLR_favor,policy,Release|x64,/favor:blend,absent,present,ADDITIONAL_OPTIONS,ClCompile/AdditionalOptions includes /favor:blend %(AdditionalOptions),O7=YES,no dedicated stable XML assumed; review exact candidate
+CLR_cfg,policy,Release|x64,CFG compile,checkpoint not fully enabled,enabled,XML,ClCompile/ControlFlowGuard=Guard,S13 VS-written XML + v180 cl.xml,
+CLR_spectre,policy,Release|x64,Spectre mitigation,default/absent,Disabled; /Qspectre absent,XML,Configuration/SpectreMitigation=false,v180 cl.xml DataSource placement + enum; /Qspectre absence gate,N1; placement must PASS strict R1 validator
+CLR_fpcontract,policy,Release|x64,/fp:contract,absent,absent,DELIBERATE_EXCEPTION,No project option may add /fp:contract; gate proves absence,S14,absence guard
+CLD_ZI,checkpoint CL,Debug|x64,/ZI,present,replaced by /Zi,XML,ClCompile/DebugInformationFormat=ProgramDatabase,checkpoint CL + D3 normalization,
+CLD_JMC,checkpoint CL,Debug|x64,/JMC,present,present,XML,ClCompile/SupportJustMyCode=true,checkpoint CL,
+CLD_Od,checkpoint CL,Debug|x64,/Od,present,present,XML,ClCompile/Optimization=Disabled,checkpoint CL,
+CLD_RTC1,checkpoint CL,Debug|x64,/RTC1,present,present,XML,ClCompile/BasicRuntimeChecks=EnableFastChecks,checkpoint CL,
+CLD_MDd,checkpoint CL,Debug|x64,/MDd,present,present,XML,ClCompile/RuntimeLibrary=MultiThreadedDebugDLL,checkpoint CL,
+CLD_intrin,D3,Debug|x64,/Oi,not explicit,present,XML,ClCompile/IntrinsicFunctions=true,D3,
+CLD_inline,D3,Debug|x64,/Ob2,not explicit,present,XML,ClCompile/InlineFunctionExpansion=AnySuitable,D3,
+CLR_Zi,checkpoint CL,Release|x64,/Zi,present,present,XML,ClCompile/DebugInformationFormat=ProgramDatabase,checkpoint CL,
+CLR_O2,checkpoint CL,Release|x64,/O2,present,present,XML,ClCompile/Optimization=MaxSpeed,checkpoint CL,
+CLR_MD,checkpoint CL,Release|x64,/MD,present,replaced by /MT,XML,ClCompile/RuntimeLibrary=MultiThreaded,checkpoint CL + D4,standalone Release
+CLR_Oi,D1 pin,Release|x64,/Oi,implied by /O2,explicit,XML,ClCompile/IntrinsicFunctions=true,D1/no-defaults,
+CLR_Ot,D1 pin,Release|x64,/Ot,implied by /O2,explicit,XML,ClCompile/FavorSizeOrSpeed=Speed,D1/no-defaults,
+CLR_Ob2,D1 pin,Release|x64,/Ob2,implied by /O2,explicit,XML,ClCompile/InlineFunctionExpansion=AnySuitable,D1/no-defaults,
+CLR_GF,D1 pin,Release|x64,/GF,implied by /O2,explicit,XML,ClCompile/StringPooling=true,D1/no-defaults,
+CLR_Gy,D1 pin,Release|x64,/Gy,implied by /O2,explicit,XML,ClCompile/FunctionLevelLinking=true,D1/no-defaults,
+CFG_D_wpo,T2/CNR3 reconciliation,Debug|x64,Configuration WholeProgramOptimization,effective false/default,explicit false,XML,Configuration/WholeProgramOptimization=false,Claude T2 + CNR3 reconciliation,Configuration-level WPO pin before Microsoft.Cpp.props; no /GL in Debug
+CLD_wpo,T2/CNR3 reconciliation,Debug|x64,ClCompile WholeProgramOptimization,effective false/default,explicit false,XML,ClCompile/WholeProgramOptimization=false,Claude T2 + CNR3 reconciliation,CNR3 selftest/DLL both explicitly false in Debug
+CLR_GL,D1 change,Release|x64,/GL,absent,present,XML,Configuration/WholeProgramOptimization=true,D1,
+CLR_GL_cl,T2/D1 change,Release|x64,/GL (ClCompile WholeProgramOptimization),absent,present,XML,ClCompile/WholeProgramOptimization=true,Claude T2 + D1 + CNR3 reconciliation,Release carries WPO explicitly in both Configuration and ClCompile
+LD_err,checkpoint LINK,Debug|x64,/ERRORREPORT:QUEUE,present,present,XML,Link/LinkErrorReporting=QueueForNextLogin,checkpoint detailed MSBuild log; native .command.1.tlog omits error-reporting switch,R1: v180 link.xml exact Link property/value; R4 provenance correction: measured detailed log contains this switch; preserved native command tlog does not
+LD_out,checkpoint LINK,Debug|x64,/OUT:...,present,present,XML,Link/OutputFile=$(OutDir)$(TargetName)$(TargetExt),checkpoint LINK tlog,
+LD_incr,checkpoint LINK,Debug|x64,/INCREMENTAL:NO,present,present,XML,Configuration/LinkIncremental=false,checkpoint LINK tlog,R1 placement confirmed: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+LD_nologo,checkpoint LINK,Debug|x64,/NOLOGO,present,present,XML,Link/SuppressStartupBanner=true,checkpoint LINK tlog,
+LD_defaultlibs,checkpoint LINK,Debug|x64,kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib,present,present,DELIBERATE_EXCEPTION,MSBuild default Windows library list; unreferenced libraries cannot reach the image; Debug dependency gate proves the resulting imported DLL set,checkpoint LINK tlog + Debug dependency evidence,"T3: deliberate exception; tlog-derived library list remains measured, not frozen as AdditionalDependencies"
+LD_manifest,checkpoint LINK,Debug|x64,/MANIFEST,present,present,XML,Configuration/GenerateManifest=true,checkpoint LINK + M3,R1 placement: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+LD_uac,checkpoint LINK,Debug|x64,/MANIFESTUAC asInvoker uiAccess=false,present,present,XML,Link/UACExecutionLevel=AsInvoker; Link/UACUIAccess=false,checkpoint LINK tlog,
+LD_embed,checkpoint LINK,Debug|x64,/manifest:embed,present,present,XML,Link/ManifestEmbed=true,v180 link.xml Switch=manifest:embed,
+LD_maninput,checkpoint LINK,Debug|x64,/manifestinput:...segmentheap.manifest,present,present,XML,Manifest/EnableSegmentHeap=true,v180 mt.xml ItemDefinitionGroup/Manifest + A1 project setting + checkpoint LINK tlog,single owner: retain existing EnableSegmentHeap=true; VS toolset emits the measured /manifestinput: segmentheap.manifest; post-A3 tlog must show exactly one such entry
+LD_debug,checkpoint LINK,Debug|x64,/DEBUG,present,/DEBUG:FULL,XML,Link/GenerateDebugInformation=DebugFull,v180 link.xml enum + Microsoft /DEBUG documentation,R2 explicit Full PDB; checkpoint /DEBUG is behaviorally equivalent
+LD_pdb,checkpoint LINK,Debug|x64,/PDB:...,present,present,XML,Link/ProgramDatabaseFile=$(OutDir)$(TargetName).pdb,checkpoint LINK tlog,
+LD_sub,checkpoint LINK,Debug|x64,/SUBSYSTEM:CONSOLE,present,present,XML,Link/SubSystem=Console,checkpoint LINK tlog,
+LD_tlbid,checkpoint LINK,Debug|x64,/TLBID:1,present,present,XML,Link/TypeLibraryResourceID=1,checkpoint LINK tlog,
+LD_dyn,checkpoint LINK,Debug|x64,/DYNAMICBASE,present,present,XML,Link/RandomizedBaseAddress=true,checkpoint LINK + M3,
+LD_nx,checkpoint LINK,Debug|x64,/NXCOMPAT,present,present,XML,Link/DataExecutionPrevention=true,checkpoint LINK + M3,
+LD_implib,checkpoint LINK,Debug|x64,/IMPLIB:...,present,present,XML,Link/ImportLibrary=$(OutDir)$(TargetName).lib,checkpoint LINK tlog,
+LD_machine,checkpoint LINK,Debug|x64,/MACHINE:X64,present,present,XML,Link/TargetMachine=MachineX64,checkpoint LINK + M3,
+LD_cfg,policy,Debug|x64,CFG link,checkpoint not fully enabled,enabled,XML,Configuration/LinkControlFlowGuard=true,v180 link.xml + post-A3 command/dumpbin gate,R1 placement: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+LD_cet,policy,Debug|x64,/CETCOMPAT,absent,present,XML,Link/CETCompat=true,v180 link.xml + post-A3 dumpbin gate,
+LR_err,checkpoint LINK,Release|x64,/ERRORREPORT:QUEUE,present,present,XML,Link/LinkErrorReporting=QueueForNextLogin,checkpoint detailed MSBuild log; native .command.1.tlog omits error-reporting switch,R1: v180 link.xml exact Link property/value; R4 provenance correction: measured detailed log contains this switch; preserved native command tlog does not
+LR_out,checkpoint LINK,Release|x64,/OUT:...,present,present,XML,Link/OutputFile=$(OutDir)$(TargetName)$(TargetExt),checkpoint LINK tlog,
+LR_incr,checkpoint LINK,Release|x64,/INCREMENTAL:NO,present,present,XML,Configuration/LinkIncremental=false,checkpoint LINK tlog,R1 placement confirmed: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+LR_nologo,checkpoint LINK,Release|x64,/NOLOGO,present,present,XML,Link/SuppressStartupBanner=true,checkpoint LINK tlog,
+LR_defaultlibs,checkpoint LINK,Release|x64,kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib,present,present,DELIBERATE_EXCEPTION,MSBuild default Windows library list; unreferenced libraries cannot reach the image; Release import gate (only KERNEL32 allowed) proves the shipped outcome,checkpoint LINK tlog + Release standalone import gate,"T3: deliberate exception; tlog-derived library list remains measured, not frozen as AdditionalDependencies"
+LR_manifest,checkpoint LINK,Release|x64,/MANIFEST,present,present,XML,Configuration/GenerateManifest=true,checkpoint LINK + M3,R1 placement: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+LR_uac,checkpoint LINK,Release|x64,/MANIFESTUAC asInvoker uiAccess=false,present,present,XML,Link/UACExecutionLevel=AsInvoker; Link/UACUIAccess=false,checkpoint LINK tlog,
+LR_embed,checkpoint LINK,Release|x64,/manifest:embed,present,present,XML,Link/ManifestEmbed=true,v180 link.xml Switch=manifest:embed,
+LR_maninput,checkpoint LINK,Release|x64,/manifestinput:...segmentheap.manifest,present,present,XML,Manifest/EnableSegmentHeap=true,v180 mt.xml ItemDefinitionGroup/Manifest + A1 project setting + checkpoint LINK tlog,single owner: retain existing EnableSegmentHeap=true; VS toolset emits the measured /manifestinput: segmentheap.manifest; post-A3 tlog must show exactly one such entry
+LR_debug,checkpoint LINK,Release|x64,/DEBUG,present,/DEBUG:FULL,XML,Link/GenerateDebugInformation=DebugFull,v180 link.xml enum + Microsoft /DEBUG documentation,R2 explicit Full PDB; checkpoint /DEBUG is behaviorally equivalent
+LR_pdb,checkpoint LINK,Release|x64,/PDB:...,present,present,XML,Link/ProgramDatabaseFile=$(OutDir)$(TargetName).pdb,checkpoint LINK tlog,
+LR_sub,checkpoint LINK,Release|x64,/SUBSYSTEM:CONSOLE,present,present,XML,Link/SubSystem=Console,checkpoint LINK tlog,
+LR_tlbid,checkpoint LINK,Release|x64,/TLBID:1,present,present,XML,Link/TypeLibraryResourceID=1,checkpoint LINK tlog,
+LR_dyn,checkpoint LINK,Release|x64,/DYNAMICBASE,present,present,XML,Link/RandomizedBaseAddress=true,checkpoint LINK + M3,
+LR_nx,checkpoint LINK,Release|x64,/NXCOMPAT,present,present,XML,Link/DataExecutionPrevention=true,checkpoint LINK + M3,
+LR_implib,checkpoint LINK,Release|x64,/IMPLIB:...,present,present,XML,Link/ImportLibrary=$(OutDir)$(TargetName).lib,checkpoint LINK tlog,
+LR_machine,checkpoint LINK,Release|x64,/MACHINE:X64,present,present,XML,Link/TargetMachine=MachineX64,checkpoint LINK + M3,
+LR_cfg,policy,Release|x64,CFG link,checkpoint not fully enabled,enabled,XML,Configuration/LinkControlFlowGuard=true,v180 link.xml + post-A3 command/dumpbin gate,R1 placement: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+LR_cet,policy,Release|x64,/CETCOMPAT,absent,present,XML,Link/CETCompat=true,v180 link.xml + post-A3 dumpbin gate,
+LD_optref,M3,Debug|x64,/OPT:REF semantic,NOREF under /DEBUG,explicit false,XML,Link/OptimizeReferences=false,M3 dumpbin/command semantics,
+LD_icf,M3,Debug|x64,/OPT:ICF semantic,NOICF under /DEBUG,explicit false,XML,Link/EnableCOMDATFolding=false,M3 dumpbin/command semantics,
+LD_fullpdb,M3/S13,Debug|x64,Debug information mode,/DEBUG with /ZI checkpoint conflict,Full PDB explicit (/DEBUG:FULL),XML,Link/GenerateDebugInformation=DebugFull,v180 link.xml enum + post-build PDB/debug-directory gate,R2; same explicit pin as corresponding LINK /DEBUG row
+LR_ref,checkpoint LINK,Release|x64,/OPT:REF,present,present,XML,Link/OptimizeReferences=true,checkpoint LINK,
+LR_icf,checkpoint LINK,Release|x64,/OPT:ICF,present,present,XML,Link/EnableCOMDATFolding=true,checkpoint LINK,
+LR_ltcg,D1 change,Release|x64,/LTCG,absent,present,XML,Link/LinkTimeCodeGeneration=UseLinkTimeCodeGeneration,D1,
+LR_pdbalt,D6,Release|x64,/PDBALTPATH:%_PDB%,absent,present,ADDITIONAL_OPTIONS,Link/AdditionalOptions includes /PDBALTPATH:%_PDB% %(AdditionalOptions),D6,
+LR_fullpdb,M3/S13,Release|x64,Debug information mode,/DEBUG + /Zi,Full PDB explicit (/DEBUG:FULL),XML,Link/GenerateDebugInformation=DebugFull,v180 link.xml enum + post-build PDB/debug-directory gate,R2; same explicit pin as corresponding LINK /DEBUG row
+M3D_pe,M3 dumpbin,Debug|x64,PE format,PE32+ x64,PE32+ x64,XML,Link/TargetMachine=MachineX64,dumpbin headers,
+M3D_laa,M3 dumpbin,Debug|x64,Large Address Aware,ON,ON,XML,Link/LargeAddressAware=true,dumpbin headers,
+M3D_hev,M3 dumpbin,Debug|x64,High Entropy VA,ON,ON,ADDITIONAL_OPTIONS,Link/AdditionalOptions includes /HIGHENTROPYVA %(AdditionalOptions),no HighEntropyVA property in v180 link.xml + post-A3 dumpbin,R3 explicit switch; keep RandomizedBaseAddress=true
+M3D_aslr,M3 dumpbin,Debug|x64,Dynamic Base / ASLR,ON,ON,XML,Link/RandomizedBaseAddress=true,dumpbin headers,
+M3D_dep,M3 dumpbin,Debug|x64,NX / DEP,ON,ON,XML,Link/DataExecutionPrevention=true,dumpbin headers,
+M3D_tsa,M3 dumpbin,Debug|x64,Terminal Server Aware,ON,ON,XML,Link/TerminalServerAware=true,dumpbin headers,
+M3D_manifestm3,M3 dumpbin,Debug|x64,Manifest resource,present,present,XML,Configuration/GenerateManifest=true,dumpbin headers/resources,R1 placement: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+M3D_cookie,M3 dumpbin,Debug|x64,Security Cookie,present,present,XML,ClCompile/BufferSecurityCheck=true,dumpbin loadconfig,
+M3D_cfgm3,M3 dumpbin,Debug|x64,Full CFG state,not fully enabled,enabled + table/count > 0,XML,ClCompile/ControlFlowGuard=Guard; Configuration/LinkControlFlowGuard=true,v180 rules + P3 post-A3 dumpbin gate,binary state still must pass post-build gate; R1 placement: linker CFG property persists in configuration-conditioned PropertyGroup
+M3D_cetm3,M3 dumpbin,Debug|x64,CET compatible,absent,present,XML,Link/CETCompat=true,v180 link.xml + P3 post-A3 dumpbin gate,binary state still must pass post-build gate
+M3R_pe,M3 dumpbin,Release|x64,PE format,PE32+ x64,PE32+ x64,XML,Link/TargetMachine=MachineX64,dumpbin headers,
+M3R_laa,M3 dumpbin,Release|x64,Large Address Aware,ON,ON,XML,Link/LargeAddressAware=true,dumpbin headers,
+M3R_hev,M3 dumpbin,Release|x64,High Entropy VA,ON,ON,ADDITIONAL_OPTIONS,Link/AdditionalOptions includes /HIGHENTROPYVA %(AdditionalOptions),no HighEntropyVA property in v180 link.xml + post-A3 dumpbin,R3 explicit switch; keep RandomizedBaseAddress=true
+M3R_aslr,M3 dumpbin,Release|x64,Dynamic Base / ASLR,ON,ON,XML,Link/RandomizedBaseAddress=true,dumpbin headers,
+M3R_dep,M3 dumpbin,Release|x64,NX / DEP,ON,ON,XML,Link/DataExecutionPrevention=true,dumpbin headers,
+M3R_tsa,M3 dumpbin,Release|x64,Terminal Server Aware,ON,ON,XML,Link/TerminalServerAware=true,dumpbin headers,
+M3R_manifestm3,M3 dumpbin,Release|x64,Manifest resource,present,present,XML,Configuration/GenerateManifest=true,dumpbin headers/resources,R1 placement: v180 Link property DataSource ProjectFile + HasConfigurationCondition=true
+M3R_cookie,M3 dumpbin,Release|x64,Security Cookie,present,present,XML,ClCompile/BufferSecurityCheck=true,dumpbin loadconfig,
+M3R_cfgm3,M3 dumpbin,Release|x64,Full CFG state,not fully enabled,enabled + table/count > 0,XML,ClCompile/ControlFlowGuard=Guard; Configuration/LinkControlFlowGuard=true,v180 rules + P3 post-A3 dumpbin gate,binary state still must pass post-build gate; R1 placement: linker CFG property persists in configuration-conditioned PropertyGroup
+M3R_cetm3,M3 dumpbin,Release|x64,CET compatible,absent,present,XML,Link/CETCompat=true,v180 link.xml + P3 post-A3 dumpbin gate,binary state still must pass post-build gate
+M3R_rsds,M3 dumpbin,Release|x64,CodeView/RSDS PDB path,absolute path,file name only,ADDITIONAL_OPTIONS,/PDBALTPATH:%_PDB% in Link/AdditionalOptions,dumpbin debug directories,D6
+M3D_rsds,M3 dumpbin,Debug|x64,CodeView/RSDS PDB path,development path,development path allowed,DELIBERATE_EXCEPTION,Debug RSDS/PDB semantics are post-build dumpbin evidence; no separate XML pin beyond the PDB/debug rows,dumpbin debug directories,Q1: not an XML-recognition row
+M3R_imports,M3 imports,Release|x64,Runtime DLL dependency set,VCRUNTIME/UCRT/KERNEL32,KERNEL32 expected; forbidden runtime DLLs absent,XML,ClCompile/RuntimeLibrary=MultiThreaded,dumpbin imports/dependents,standalone import gate is separate post-build evidence
+M3D_imports,M3 imports,Debug|x64,Runtime DLL dependency set,VCRUNTIME140D/ucrtbased/KERNEL32,unchanged DLL-name set,XML,ClCompile/RuntimeLibrary=MultiThreadedDebugDLL,dumpbin imports/dependents,

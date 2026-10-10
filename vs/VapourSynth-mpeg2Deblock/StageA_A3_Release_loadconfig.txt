@@ -1,0 +1,346 @@
+Microsoft (R) COFF/PE Dumper Version 14.51.36260.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file x64\Release\Mpeg2BlockInspector.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Section contains the following load config:
+
+            00000140 size
+                   0 time date stamp
+                0.00 Version
+                   0 GlobalFlags Clear
+                   0 GlobalFlags Set
+                   0 Critical Section Default Timeout
+                   0 Decommit Free Block Threshold
+                   0 Decommit Total Free Threshold
+    0000000000000000 Lock Prefix Table
+                   0 Maximum Allocation Size
+                   0 Virtual Memory Threshold
+                   0 Process Affinity Mask
+                   0 Process Heap Flags
+                   0 CSD Version
+                0000 Dependent Load Flag
+    0000000000000000 Edit List
+    0000000140038000 Security Cookie
+    000000014002A270 Guard CF address of check-function pointer
+    000000014002A280 Guard CF address of dispatch-function pointer
+    000000014002A338 Guard CF function table
+                  37 Guard CF function count
+            10017500 Guard Flags
+                       CF instrumented
+                       FID table present
+                       Protect delayload IAT
+                       Delayload IAT in its own section
+                       Export suppression info present
+                       Long jump target table present
+                0000 Code Integrity Flags
+                0000 Code Integrity Catalog
+            00000000 Code Integrity Catalog Offset
+            00000000 Code Integrity Reserved
+    0000000000000000 Guard CF address taken IAT entry table
+                   0 Guard CF address taken IAT entry count
+    0000000000000000 Guard CF long jump target table
+                   0 Guard CF long jump target count
+    0000000000000000 Dynamic value relocation table
+    0000000000000000 Hybrid metadata pointer
+    0000000000000000 Guard RF address of failure-function
+    0000000000000000 Guard RF address of failure-function pointer
+            00000000 Dynamic value relocation table offset
+                0000 Dynamic value relocation table section
+                0000 Reserved2
+    0000000000000000 Guard RF address of stack pointer verification function pointer
+            00000000 Hot patching table offset
+                0000 Reserved3
+    0000000000000000 Enclave configuration pointer
+    000000014003466C Volatile metadata pointer
+    0000000000000000 Guard EH continuation table
+                   0 Guard EH continuation count
+    000000014002A278 Guard XFG address of check-function pointer
+    000000014002A288 Guard XFG address of dispatch-function pointer
+    000000014002A290 Guard XFG address of dispatch-table-function pointer
+    000000014002A298 CastGuard OS determined failure mode
+    000000014002A2A0 Guard memcpy function pointer
+
+    Guard CF Function Table
+
+          Address
+          --------
+           000000014000EB70
+           000000014000EC30
+           000000014000EC40
+           000000014000EDE0  mainCRTStartup
+           000000014000EE00  __report_gsfailure
+           000000014000F140  __scrt_exe_initialize_mta
+           000000014000F180  __acrt_uninitialize_command_line
+           000000014000F190  _guard_check_icall_nop
+           000000014000F2A0  __scrt_unhandled_exception_filter
+           000000014000F350  _RTC_Terminate
+           000000014000F900  __DestructExceptionObject
+           000000014000FAE0  _NLG_Notify
+           000000014000FB00  __NLG_Dispatch2
+           000000014000FB10  __NLG_Return2
+           000000014000FB60  __vcrt_freefls
+           00000001400115B0  ??_Ebad_exception@std@@UEAAPEAXI@Z (public: virtual void * __cdecl std::bad_exception::`vector deleting destructor'(unsigned int))
+           0000000140011600  ?CxxCallCatchBlock@__FrameHandler3@@SAPEAXPEAU_EXCEPTION_RECORD@@@Z (public: static void * __cdecl __FrameHandler3::CxxCallCatchBlock(struct _EXCEPTION_RECORD *))
+           0000000140011C10  ?what@exception@std@@UEBAPEBDXZ (public: virtual char const * __cdecl std::exception::what(void)const )
+           0000000140011E40  __acrt_initialize_stdio
+           0000000140011F90  __acrt_uninitialize_stdio
+           0000000140017960  __acrt_initialize_command_line
+           0000000140017A20  __acrt_uninitialize_locale
+           0000000140017F00
+           0000000140017F20
+           0000000140017F50
+           0000000140017F60
+           0000000140017FA0
+           0000000140017FB0
+           0000000140017FF0
+           000000014001BC00  __acrt_initialize_winapi_thunks
+           000000014001BC80  __acrt_uninitialize_winapi_thunks
+           000000014001BFD0  __acrt_initialize_lowio
+           000000014001C010  __acrt_uninitialize_lowio
+           000000014001E000
+           000000014001E390  __acrt_initialize_ptd
+           000000014001E3E0  __acrt_uninitialize_ptd
+           000000014001E8F0  __acrt_initialize_locks
+           000000014001E960  __acrt_uninitialize_locks
+           000000014001FC40  __acrt_initialize_fmode
+           000000014001FF00
+           00000001400211D0  __acrt_initialize_multibyte
+           0000000140022520  __acrt_initialize_heap
+           0000000140022550  __acrt_uninitialize_heap
+           0000000140025570
+           0000000140025A40  __dcrt_terminate_console_output
+           0000000140027000  __acrt_initialize_fma3
+           00000001400270B0  _log10_special
+           0000000140027680  ??_Etype_info@@UEAAPEAXI@Z (public: virtual void * __cdecl type_info::`vector deleting destructor'(unsigned int))
+           0000000140028220  __remainder_piby2_forAsm
+           0000000140028430  __remainder_piby2_fma3
+           0000000140028620  __remainder_piby2_fma3_bdl
+           00000001400286A0  _cos_special
+           00000001400287F0  memcpy_repmovs
+           0000000140028800  memcpy
+           0000000140028FF0  memset_repstos
+
+    Volatile Metadata
+
+                      18 size
+                       3 min version (8003)
+                       3 max version (8003)
+        0000000000034684 volatile access RVA table
+                     2D4 volatile access RVA table size
+        0000000000034958 volatile range info table
+                      50 volatile range info table size
+
+    Volatile Access RVA Table
+
+          Address
+          --------
+           000000014000EE1D
+           000000014000EE2C
+           000000014000EE3E
+           000000014000EFF8
+           000000014000F518
+           000000014000F527
+           000000014000F58A
+           000000014000F5DA
+           000000014000F621
+           000000014000FB20  __except_validate_context_record
+           000000014000FB33
+           000000014000FE1F
+           0000000140011716
+           000000014001314F
+           0000000140013200
+           0000000140013B46
+           0000000140013BA6
+           0000000140013BEF
+           0000000140013CB5
+           0000000140013D48
+           0000000140013DA2
+           0000000140013DEA
+           000000014001487C
+           00000001400149F0
+           0000000140014A25
+           0000000140014EFD
+           0000000140014F30
+           0000000140014FC0
+           0000000140015112
+           0000000140015156
+           0000000140015160
+           0000000140015168
+           00000001400151EC
+           0000000140015275
+           0000000140015311
+           0000000140015384
+           000000014001583F
+           000000014001584E
+           0000000140015865
+           0000000140015935
+           0000000140015960
+           000000014001599A
+           00000001400159A2
+           00000001400159A9
+           00000001400159B4
+           00000001400159C5
+           0000000140015DDD
+           0000000140015E08
+           0000000140015E22
+           0000000140015E64
+           0000000140015ED8
+           000000014001604B
+           000000014001646C
+           0000000140016495
+           00000001400166BA
+           0000000140016B5D
+           0000000140016CCB
+           0000000140016D08
+           0000000140016E81
+           0000000140016E88
+           0000000140017A0D
+           0000000140017AC0  _query_new_mode
+           0000000140017AEE
+           0000000140017FC0
+           000000014001B278
+           000000014001B29C
+           000000014001B718
+           000000014001B78E
+           000000014001B827
+           000000014001B88F
+           000000014001B8D5
+           000000014001B90E
+           000000014001B968
+           000000014001BA8C  __acrt_FlsGetValue2
+           000000014001BABC
+           000000014001BBA6
+           000000014001BC38
+           000000014001BD07
+           000000014001BD8A
+           000000014001BD97
+           000000014001BDA8
+           000000014001DD3E
+           000000014001DD49
+           000000014001DDC1
+           000000014001DDD9
+           000000014001DE2A
+           000000014001DEFA
+           000000014001E493
+           000000014001E4E1
+           000000014001E4F2
+           000000014001E4F6
+           000000014001E4FE
+           000000014001E582
+           000000014001E8B2
+           000000014001EC01
+           000000014001EC3F
+           000000014001EC8F
+           000000014001ECA7
+           000000014001ED90
+           000000014001EDC0
+           000000014001EDC8
+           000000014001F071
+           000000014001F109
+           000000014001F14A
+           000000014001F156
+           000000014001F167
+           000000014001F1EF
+           000000014001F202
+           000000014001F20F
+           000000014001F222
+           000000014001F244
+           000000014001F249
+           000000014001F24E
+           000000014001F25A
+           000000014001F2A4  __acrt_app_verifier_enabled
+           000000014001F2C0  __acrt_is_secure_process
+           000000014001FDC2
+           000000014001FDD0
+           000000014001FDDE
+           000000014001FDE6
+           000000014001FDF0
+           000000014001FDF5
+           000000014001FE33
+           000000014001FE96
+           000000014001FEA4
+           000000014001FEAC
+           000000014001FED8
+           0000000140020B31
+           0000000140020B79
+           000000014002105A
+           0000000140021175
+           000000014002119C
+           0000000140022050  __acrt_add_locale_ref
+           0000000140022060
+           000000014002206F
+           000000014002207E
+           000000014002208D
+           00000001400220AF
+           00000001400220C2
+           000000014002226A
+           0000000140022295
+           00000001400222C8
+           00000001400222ED
+           00000001400222FE
+           000000014002230E
+           000000014002231E
+           000000014002232E
+           0000000140022351
+           0000000140022365
+           0000000140024AE2
+           0000000140024AE9
+           0000000140026596
+           0000000140026617
+           0000000140027033
+           0000000140027038
+           000000014002715E
+           00000001400271A0
+           00000001400271B9
+           00000001400271CE
+           00000001400271F0  _set_fpcsr
+           0000000140027213
+           000000014002955A
+           0000000140029564
+           000000014002956B
+           000000014002956F
+           000000014002957B
+           0000000140029585
+           0000000140029592
+           000000014002959F
+           00000001400295B1
+           00000001400295B9
+           00000001400295D0
+           00000001400295D7
+           00000001400295FB
+           0000000140029623
+           0000000140029637
+           0000000140029683
+           000000014002968A
+           0000000140029691
+           0000000140029835
+           0000000140029838
+
+    Volatile Info Range Table
+
+          Ranges
+          -------
+          000000014000EB70 - 000000014000FAB0
+          000000014000FB20 - 0000000140011C30
+          0000000140011CB0 - 0000000140025D60
+          0000000140026310 - 0000000140026624
+          000000014002663C - 0000000140026FF0
+          0000000140027000 - 0000000140027930
+          0000000140027990 - 0000000140027BF0
+          0000000140028170 - 0000000140028220
+          00000001400286A0 - 0000000140028770
+          0000000140029510 - 0000000140029B00
+
+  Summary
+
+        7000 .data
+        1000 .fptable
+        2000 .pdata
+        E000 .rdata
+        1000 .reloc
+        1000 .rsrc
+       29000 .text

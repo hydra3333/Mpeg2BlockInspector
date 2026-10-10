@@ -1,0 +1,1 @@
+PASS: 141 structural pin rows; no duplicate keys/blanks; no pending coverage kinds.

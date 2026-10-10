@@ -1,0 +1,103 @@
+Microsoft (R) COFF/PE Dumper Version 14.51.36260.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file x64\Release\Mpeg2BlockInspector.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Section contains the following imports:
+
+    KERNEL32.dll
+             14002A000 Import Address Table
+             140036C98 Import Name Table
+                     0 time date stamp
+                     0 Index of first forwarder reference
+
+                         484 QueryPerformanceCounter
+                         245 GetCurrentProcessId
+                         249 GetCurrentThreadId
+                         31D GetSystemTimeAsFileTime
+                         39D InitializeSListHead
+                         5BB SetUnhandledExceptionFilter
+                         304 GetStartupInfoW
+                         2A8 GetModuleHandleW
+                         51A RtlUnwindEx
+                         290 GetLastError
+                         57B SetLastError
+                         1C5 FlsAlloc
+                         1C7 FlsGetValue
+                         1C9 FlsSetValue
+                         1C6 FlsFree
+                         15A EnterCriticalSection
+                         3F3 LeaveCriticalSection
+                         39A InitializeCriticalSectionEx
+                         132 DeleteCriticalSection
+                         514 RtlLookupFunctionEntry
+                         156 EncodePointer
+                         49B RaiseException
+                         516 RtlPcToFileHeader
+                         244 GetCurrentProcess
+                         189 ExitProcess
+                         5DB TerminateProcess
+                         1D7 FreeLibrary
+                         2A7 GetModuleHandleExW
+                         2E0 GetProcAddress
+                         306 GetStdHandle
+                         663 WriteFile
+                         2A4 GetModuleFileNameW
+                         202 GetCommandLineA
+                         203 GetCommandLineW
+                         4AC ReadFile
+                         228 GetConsoleMode
+                         4A9 ReadConsoleW
+                          E9 CreateFileW
+                         27D GetFileType
+                          A0 CloseHandle
+                         56C SetFilePointerEx
+                         22C GetConsoleOutputCP
+                         3BB IsProcessorFeaturePresent
+                         50C RtlCaptureContext
+                         51B RtlVirtualUnwind
+                         3B3 IsDebuggerPresent
+                         5FE UnhandledExceptionFilter
+                         37F HeapAlloc
+                         383 HeapFree
+                         61D VirtualProtect
+                         3F9 LoadLibraryExW
+                          B6 CompareStringW
+                         3E7 LCMapStringW
+                         1CB FlushFileBuffers
+                         426 MultiByteToWideChar
+                         139 DeleteFileW
+                         41F MoveFileExW
+                         27B GetFileSizeEx
+                         596 SetStdHandle
+                         1A0 FindClose
+                         1A6 FindFirstFileExW
+                         1B7 FindNextFileW
+                         3C1 IsValidCodePage
+                         1DE GetACP
+                         2C9 GetOEMCP
+                         1ED GetCPInfo
+                         64F WideCharToMultiByte
+                         265 GetEnvironmentStringsW
+                         1D6 FreeEnvironmentStringsW
+                         55D SetEnvironmentVariableW
+                         30B GetStringTypeW
+                         2E7 GetProcessHeap
+                         559 SetEndOfFile
+                         388 HeapSize
+                         386 HeapReAlloc
+                         662 WriteConsoleW
+                         519 RtlUnwind
+
+  Summary
+
+        7000 .data
+        1000 .fptable
+        2000 .pdata
+        E000 .rdata
+        1000 .reloc
+        1000 .rsrc
+       29000 .text

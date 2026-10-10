@@ -37,6 +37,11 @@ ipch/
 *.lastbuildstate
 *.aps
 
+# extraneous log files
+vs/A3_LTCGOUT_SCRATCH/
+vs/A3_LTCG_SUPPRESS_SCRATCH/
+vs/VapourSynth-mpeg2Deblock/*.log
+
 # CMake per-user presets (keep CMakePresets.json; ignore only the user file)
 CMakeUserPresets.json
 
