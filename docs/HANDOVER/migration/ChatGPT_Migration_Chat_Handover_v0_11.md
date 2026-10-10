@@ -231,15 +231,20 @@ D. development-chat continuity handovers (DO NOT EDIT from migration):
 # 2. READING ORDER FOR THE NEW CHAT
 
 1. this file, `ChatGPT_Migration_Chat_Handover_v0_11.md`;
-2. `StageA_VS2026_MSBuild_Hard_Earned_Knowledge_v0_3.md` (durable MSBuild lessons, including `/LTCGOUT` in sections 16-17);
+2. `StageA_VS2026_MSBuild_Hard_Earned_Knowledge_v0_4.md` (durable MSBuild lessons and the reviewed 2026-10-10 policy addendum);
 3. `Claude_REVIEW_OF_ChatGPT_StageA_A3_v0_10_Candidate_v0_1.md`: v0.10 is RATIFIABLE, with OPTIONAL Y1 and Y2;
 4. `Claude_REVIEW_OF_ChatGPT_StageA_A3_W1_LTCGOUT_and_v0_10_Proposal_v0_1.md`: X1-X5;
 5. `Claude_REVIEW_OF_ChatGPT_StageA_A3_v0_9_Post_Apply_Gate_v0_1.md`: W1-W7, and why W1 is required;
 6. `Claude_check_A3_post_tokens_v0_1.py` (the W1 checker; never edit it to make it pass);
 7. `StageA_A3_v0_10_Predicted_Command_Line_Delta.md`, `StageA_A3_v0_10_LTCGOUT_Correction_Record_v0_1.md` and `StageA_A3_v0_10_LTCGOUT_Toolset_Evidence_v0_1.md`;
 8. `StageA_A3_pin_table_v0_9.csv`: 143 rows, including `LD_ltcgout` and `LR_ltcgout`;
-9. `Migration_Design_Record_D-C_CNR3_VS2026_Intent_v0_17.md`, `StageA_Visual_Studio_Normalization_Execution_Plan_v0_12.md` (gate detail in sections 27-32) and `MPEG2_Deblocking_Developer_Handback_v0_11.md`. **All three still describe v0.9 as "apply next" and must be updated at close-out** (section 13);
-10. earlier Claude reviews, consulted when a historical decision is questioned:
+9. `Migration_Design_Record_D-C_CNR3_VS2026_Intent_v0_18.md`, `StageA_Visual_Studio_Normalization_Execution_Plan_v0_13.md` (A3 gate detail in sections 27-32) and `MPEG2_Deblocking_Developer_Handback_v0_12.md`. These contain the 2026-10-10 policy and A3 v0.10 application/gate status; refresh again with final gate results at close-out (section 13);
+10. Stage C decision/review record, read before future Stage C implementation:
+    - `Claude_REVIEW_OF_ChatGPT_StageC_MSBuild_Discovery_Proposal_v0_3.md` (M1-M5);
+    - `ChatGPT_COLD_REVIEW_OF_Claude_StageC_MSBuild_v0_3_v0_1.md` (Q1-Q6 qualifications);
+    - `Claude_REVIEW_OF_ChatGPT_StageC_Disposition_and_DocSet_DR_v0_18_v0_1.md` (K1-K4);
+    - `Claude_RECHECK_OF_ChatGPT_StageC_K1_K4_DocSet_v0_1.md` (K1-K4 accepted; H1 continuity fix).
+11. earlier Claude reviews, consulted when a historical decision is questioned:
     - `..._v0_9_Candidate_v0_1`;
     - `..._v0_8_Candidate_v0_1`;
     - `Claude_REVIEW_OF_StageA_A3_Q1_R1_R4_Local_Evidence_Closure_v0_1`;
@@ -479,6 +484,9 @@ LINK:       /OUT /INCREMENTAL:NO /NOLOGO <default libs> /MANIFEST /MANIFESTUAC:l
 
 | Review | Verdict / open items |
 |---|---|
+| `Claude_RECHECK_OF_ChatGPT_StageC_K1_K4_DocSet_v0_1.md` | K1-K4 accepted in DR v0.18, Plan v0.13, Handback v0.12, Knowledge v0.4; H1 handover sections 2/10/11 repaired in this revision without changing other sections. |
+| `Claude_REVIEW_OF_ChatGPT_StageC_Disposition_and_DocSet_DR_v0_18_v0_1.md` | K1 header currency, K2 addendum placement, K3 compiler wording, K4 build-environment/auto-import isolation; completed and accepted at re-check. |
+| `Claude_REVIEW_OF_ChatGPT_StageC_MSBuild_Discovery_Proposal_v0_3.md` | M1-M5 policy/design accepted with ChatGPT Q1-Q6 qualifications and Dave's K3 option (a). Implementation marked UNVERIFIED pending local proof; production remains unchanged during A3. |
 | `Claude_REVIEW_OF_ChatGPT_StageA_A3_v0_10_Candidate_v0_1.md` | RATIFIABLE. OPTIONAL Y1 (stale DR v0.10 and Plan v0.5 in the package) and Y2 (record that S15 was run once each, not three times). |
 | `Claude_REVIEW_OF_ChatGPT_StageA_A3_W1_LTCGOUT_and_v0_10_Proposal_v0_1.md` | Agrees with the empty pins. X1 and X2 MUST (both done in the v0.10 package; X2 = the full gate, now in progress). X3-X5 SHOULD (carried). |
 | `Claude_REVIEW_OF_ChatGPT_StageA_A3_v0_9_Post_Apply_Gate_v0_1.md` | W1 MUST (mechanical token check before Stage A closes). W2 SHOULD (raw PE evidence: LAA, TS Aware, PE32+, manifest). W3-W7 OPTIONAL: re-run lost RCs, S15 run count, Debug PE capture, warning-text diff, evidence folder name. |
@@ -490,11 +498,11 @@ LINK:       /OUT /INCREMENTAL:NO /NOLOGO <default libs> /MANIFEST /MANIFESTUAC:l
 # 11. DOCUMENTS CURRENTLY AT THE CHATGPT END (all need a close-out refresh)
 
 ```text
-Migration_Design_Record_D-C_CNR3_VS2026_Intent_v0_17.md     (says v0.9 ratified; apply next)  -> v0.18
-StageA_Visual_Studio_Normalization_Execution_Plan_v0_12.md  (same)                            -> v0.13
-MPEG2_Deblocking_Developer_Handback_v0_11.md                (same)                            -> v0.12
-StageA_VS2026_MSBuild_Hard_Earned_Knowledge_v0_3.md         (through v0.10 preparation)       -> v0.4 with v0.10 gate result
-ChatGPT_Migration_Chat_Handover_v0_11.md                    (this file)                       -> v0.11 at close-out
+Migration_Design_Record_D-C_CNR3_VS2026_Intent_v0_18.md     (current; A3 v0.10 applied, W1/HostX64 PASS) -> next v0.19 at close-out
+StageA_Visual_Studio_Normalization_Execution_Plan_v0_13.md  (current; same)                    -> next v0.14 at close-out
+MPEG2_Deblocking_Developer_Handback_v0_12.md                (current; same)                    -> next v0.13 at close-out
+StageA_VS2026_MSBuild_Hard_Earned_Knowledge_v0_4.md         (current; same)                    -> next v0.5 at close-out
+ChatGPT_Migration_Chat_Handover_v0_11.md                    (this file; H1 reconciled)        -> next v0.12 at close-out
 StageA_A3_v0_9_Ratification_Record_v0_1.md, StageA_A3_v0_10_LTCGOUT_Correction_Record_v0_1.md, StageA_A3_v0_10_LTCGOUT_Toolset_Evidence_v0_1.md
 ```
 
